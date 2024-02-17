@@ -200,7 +200,11 @@ const VideoPage = () => {
         )}
         {suggestData &&
           suggestData?.map((item, i) => {
-            return <Link to={item?.id} key={i}><SmallVideoCard data={item} /></Link>
+            return (
+              <Link to={`/watch/${item?.id}`} key={i}>
+                <SmallVideoCard data={item} />
+              </Link>
+            );
           })}
       </div>
     </div>
