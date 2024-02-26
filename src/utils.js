@@ -1,5 +1,5 @@
-export const API_KEY = "AIzaSyD3_8qgZRimxv0jXBr3JvMuSreRhhcPD4Q";
-export const API_KEY2 = "AIzaSyC0oR7YZsCRBjHVQXAlFSZ0Jgy1TRSC8cQ";
+export const API_KEY = "AIzaSyD3_8qgZRimxv0jXBr3JvMuSreRhhcPD4";
+export const API_KEY2 = "AIzaSyC0oR7YZsCRBjHVQXAlFSZ0Jgy1TRSC8c";
 export const POPULAR_VIDEO_API = `https://youtube.googleapis.com/youtube/v3/videos?part=snippet%2CcontentDetails%2Cstatistics&chart=mostPopular&maxResults=48&regionCode=IN&key=${API_KEY2}`;
 export const HOMEPAGE_API = `
 https://www.youtube.com/youtubei/v1/player?key=${API_KEY2}&prettyPrint=false`;
