@@ -3,7 +3,6 @@ import { Link, useParams } from "react-router-dom";
 import {
   CHANNLE_DATA_API,
   VIDEO_DETAILS_API,
-  // CATEGORIES_DATA_API,
   videoCategory_api,
   videoPlayer_api,
 } from "../utils";
@@ -18,36 +17,27 @@ const VideoPage = () => {
   const [channelDetails, setChannelDetails] = useState(null);
   const [channelId, setChannelId] = useState("");
   const [subscribe, setSubscribe] = useState("");
-
   const subscribeRef = useRef(false);
   const containerRef = useRef(null);
 
   useEffect(() => {
-    // getVideoPlayerData();
     getCategories();
     getVideoDetails();
   }, []);
 
   useEffect(() => {
-    if (channelId === "") return;
-    console.log("func called ", channelId);
     getChannelData(channelId);
-  }, [channelId]);
+  }, [channelId, id]);
+
   useEffect(() => {
     getCategoryVideoData(categoryId);
   }, [categoryId]);
 
   useEffect(() => {
     if (containerRef.current) {
-      containerRef.current.scrollLeft = 0; // Reset scroll position when categoryItems changes
+      containerRef.current.scrollLeft = 0;
     }
   }, [categoryItems]);
-
-  // const getVideoPlayerData = async () => {
-  //   const videoPlayerUrl = await fetch(videoPlayer_api);
-  //   const vPlayerData = await videoPlayerUrl.json(); // await needed here
-  //   // console.log(vPlayerData);
-  // };
 
   const getCategories = async () => {
     try {
@@ -62,13 +52,12 @@ const VideoPage = () => {
   const getCategoryVideoData = async (id) => {
     const url = await fetch(videoPlayer_api + id);
     const data = await url.json();
-    // console.log(data);
     setSuggestData(data?.items);
   };
 
   const handleScrollRight = () => {
     if (containerRef.current) {
-      containerRef.current.scrollLeft += 300; // You can adjust the scroll amount as needed
+      containerRef.current.scrollLeft += 200; // Adjust as needed
     }
   };
 
@@ -85,27 +74,26 @@ const VideoPage = () => {
       console.error("Error fetching video details:", error);
     }
   };
+
   const getChannelData = async (channel) => {
     try {
       const url = await fetch(CHANNLE_DATA_API + channel);
       if (!url.ok) {
-        throw new Error("Failed to fetch video details");
+        throw new Error("Failed to fetch channel details");
       }
       const data = await url.json();
-      console.log(data);
       setChannelDetails(data?.items && data?.items[0]);
     } catch (error) {
-      console.error("Error fetching video details:", error);
+      console.error("Error fetching channel details:", error);
     }
   };
 
   return (
-    <div className="px-8 pt-4 video_page flex items-start gap-8">
-      <div className="w-8/12 flex flex-col gap-4 h-full overflow-y-scroll hide_scroll">
+    <div className="px-8 pt-4 video_page flex flex-col md:flex-row items-start gap-8">
+      <div className="w-full md:w-8/12 flex flex-col gap-4 h-full">
         <iframe
           width="100%"
-          // height="75%"
-          style={{ minHeight: "400px" }}
+          style={{ minHeight: "380px" }}
           className="rounded-xl"
           src={`https://www.youtube.com/embed/${id}?autoplay=1&si=ChLSfIsfR848SCc6`}
           title="YouTube video player"
@@ -117,16 +105,16 @@ const VideoPage = () => {
           return (
             <div className="flex flex-col gap-4" key={i}>
               <h3 className="font-bold text-xl">
-                {channelDetails?.snippet?.title}
+                {videoDetails[0]?.snippet?.title}
               </h3>
               <div className="flex justify-between items-center">
-                <div className="flex gap-4">
+                <div className="flex gap-4 items-center">
                   <img
                     src={channelDetails?.snippet?.thumbnails?.high?.url}
-                    alt="img"
+                    alt="Channel Thumbnail"
                     className="h-10 w-10 rounded-full"
                   />
-                  <div className="flex flex-col text-base mr-2">
+                  <div className="flex flex-col text-base">
                     <span className="font-bold text-gray-500">
                       {item?.snippet?.channelTitle}
                     </span>
@@ -145,11 +133,11 @@ const VideoPage = () => {
                     </span>
                   </div>
                   <button
-                    className={
-                      !subscribeRef.current
-                        ? "py-2 px-6 text-base font-[400] rounded-full bg-black text-white"
-                        : "py-2 px-6 text-base font-[400] rounded-full bg-gray-300 text-black"
-                    }
+                    className={`py-2 px-6 text-base font-[400] rounded-full ${
+                      subscribeRef.current
+                        ? "bg-gray-300 text-black"
+                        : "bg-black text-white"
+                    }`}
                     onClick={() => {
                       subscribeRef.current = !subscribeRef.current;
                       setSubscribe(subscribeRef.current ? "Subscribed" : "");
@@ -164,20 +152,21 @@ const VideoPage = () => {
                     )}
                   </button>
                 </div>
-                <div className="flex items-center">
-                  <div className=""></div>
-                </div>
               </div>
             </div>
           );
         })}
       </div>
-      <div className="w-4/12 flex flex-col h-full overflow-y-scroll hide_scroll ">
+      <div className="w-full md:w-4/12 flex md:gap-0 flex-col gap-4 h-full overflow-y-scroll hide_scroll">
         {categoryItems && (
           <div className="flex items-center">
             <div
-              className="overflow-x-scroll flex gap-3 hide_scroll scroll-smooth"
+              className="overflow-x-scroll hide_scroll flex gap-3"
               ref={containerRef}
+              style={{
+                scrollBehavior: "smooth",
+                transition: "transform 0.5s ease",
+              }}
             >
               {categoryItems?.items?.map((item, i) => (
                 <button

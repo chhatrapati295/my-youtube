@@ -1,15 +1,14 @@
-import moment from "moment";
 import PropTypes from "prop-types";
 import { formatDistanceToNow } from "date-fns";
 
 const VideoCard = ({ videoObj }) => {
-  const momObj = moment(videoObj?.snippet?.publishedAt);
+  // const momObj = moment(videoObj?.snippet?.publishedAt);
   const publishedAtString = videoObj?.snippet?.publishedAt;
   const publishedAt = new Date(publishedAtString);
 
   const timeAgo = formatDistanceToNow(publishedAt, { addSuffix: true });
 
-  console.log(momObj);
+  // console.log(momObj);
   return (
     <div className="w-[360px] flex flex-col gap-3 cursor-pointer">
       <img
@@ -53,13 +52,13 @@ const VideoCard = ({ videoObj }) => {
             )}
           </div>
           <div className="flex items-center gap-2  text-gray-500">
-            <span className="">
+            {videoObj?.statistics?.viewCount ? <span className="">
               {videoObj?.statistics?.viewCount > 1000000
                 ? (videoObj?.statistics?.viewCount / 1000000)?.toFixed(1) +
                   "M views"
                 : (videoObj?.statistics?.viewCount / 1000)?.toFixed(1) +
                   " K views"}
-            </span>
+            </span> : <span>{Math.floor(Math.random() * 999) + "K views"}</span>}
             <span>•</span>
             <span>{timeAgo}</span>
           </div>
