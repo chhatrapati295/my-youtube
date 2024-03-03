@@ -2,18 +2,24 @@ import { useEffect, useRef } from "react";
 import { useState } from "react";
 import {
   POPULAR_VIDEO_API,
+  search_video_api,
   videoCategory_api,
   videoPlayer_api,
 } from "../utils";
 import VideoCard from "./VideoCard";
 import { Link } from "react-router-dom";
 import plant from "../assets/plant.gif";
+import { useSelector } from "react-redux";
+import { ToastContainer } from "react-toastify";
+import loader from "../assets/loader.gif";
 
 const PopularPage = () => {
+  const searchSliceData = useSelector((state) => state.searchQuery);
   const [popularData, setPopularData] = useState(null);
   const [categoryItems, setCategoryItems] = useState(null);
   const [vidCategory, setVidCategory] = useState("");
   const containerRef = useRef(null);
+  const [load, setLoad] = useState(false);
 
   useEffect(() => {
     console.log(vidCategory);
@@ -25,6 +31,24 @@ const PopularPage = () => {
     getCategories();
   }, []);
 
+  useEffect(() => {
+    getSearchVideoData(searchSliceData);
+  }, [searchSliceData]);
+
+  const getSearchVideoData = async (query) => {
+    setLoad(true);
+    try {
+      const url = await fetch(search_video_api + query);
+      const data = await url.json();
+      console.log("search data ", data);
+      setPopularData(data);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoad(false);
+    }
+  };
+
   const getPopularVideoData = async () => {
     try {
       const popularDataUrl = await fetch(POPULAR_VIDEO_API);
@@ -32,6 +56,7 @@ const PopularPage = () => {
       setPopularData(mainData);
     } catch (error) {
       console.error("Error fetching popular video data:", error);
+      // toast.error("Daily quota limit exceeded!");
     }
   };
 
@@ -63,7 +88,20 @@ const PopularPage = () => {
   };
 
   return (
-    <div className=" h-full popular_page px-1">
+    <div className=" h-full popular_page px-1 ">
+      <ToastContainer
+        position="bottom-left"
+        autoClose={1900}
+        hideProgressBar={false}
+        newestOnTop
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="dark"
+        transition:Bounce
+      />
       <div className="flex w-full items-center">
         <div
           className="flex gap-3 items-center overflow-x-scroll hide_scroll my-4 mr-1"
@@ -93,18 +131,29 @@ const PopularPage = () => {
           onClick={handleScrollRight}
         ></i>
       </div>
-      {popularData?.items?.length > 0 ? (
-        <div className="flex flex-wrap gap-x-6 gap-y-12 py-2 overflow-y-scroll video_container">
-          {popularData?.items?.map((videoObj, i) => (
-            <Link to={`watch/` + videoObj?.id} key={i}>
-              <VideoCard videoObj={videoObj} />
-            </Link>
-          ))}
+      {popularData === null && load ? (
+        <div className="flex items-center justify-center w-full h-5/6">
+          <img src={loader} className="h-8 w-8 rounded-full m-auto" alt="" />
         </div>
-      ) : (
+      ) : popularData && popularData?.length === 0 && !load ? (
         <div className="video_container flex flex-col gap-2 text-sm justify-center items-center">
           <img src={plant} className="h-24" alt="" />
           <span>Videos not available</span>
+        </div>
+      ) : (
+        <div className="flex flex-wrap gap-x-6 gap-y-12 py-2 overflow-y-scroll video_container">
+          {popularData?.items?.map((videoObj, i) => (
+            <Link
+              to={
+                videoObj?.id?.videoId
+                  ? `watch/` + videoObj?.id?.videoId
+                  : `watch/` + videoObj?.id
+              }
+              key={i}
+            >
+              <VideoCard videoObj={videoObj} />
+            </Link>
+          ))}
         </div>
       )}
     </div>

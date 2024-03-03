@@ -1,4 +1,40 @@
+import { useEffect, useState } from "react";
+import { search_suggestion_api } from "../utils";
+import { useDispatch } from "react-redux";
+import { setSearchQuery } from "../store/slices/searchSlice";
+import "react-toastify/dist/ReactToastify.css";
+
 const Header = () => {
+  const dispatch = useDispatch();
+  const [searchInp, setSearchInp] = useState("");
+  const [showSuggestion, setShowSuggestion] = useState(false);
+  const [suggestionData, setSuggestionData] = useState([]);
+
+  useEffect(() => {
+    // if (searchInp !== "") {
+    //   setShowSuggestion(true);
+    // }
+    const timeout1 = setTimeout(() => {
+      if (searchInp.trim() !== "") {
+        getSearchData(searchInp);
+      }
+    }, 500);
+    return () => clearTimeout(timeout1);
+  }, [searchInp]);
+
+  const getSearchData = async (query) => {
+    try {
+      const url = await fetch(search_suggestion_api + query);
+      const data = await url.json();
+      console.log(data);
+      setSuggestionData(data?.items);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+  // const notify = () => toast("Wow so easy !");
+  // notify();
+
   return (
     <div className="flex justify-between items-center w-full px-6 py-1">
       <div className="flex gap-6 items-center w-fit ">
@@ -60,32 +96,63 @@ const Header = () => {
           </svg>
         </svg>
       </div>
-      <div className=" rounded-lg  w-5/12 hidden md:flex ">
+
+      <div
+        className="flex items-center rounded-lg p-2 md:p-0 md:flex-shrink-0 md:w-96 md:relative header_search"
+        onFocus={() => setShowSuggestion(true)}
+      >
         <input
+          value={searchInp}
+          onChange={(e) => {
+            setSearchInp(e.target.value);
+          }}
           type="text"
           placeholder="Search"
-          className="flex-1  outline-none rounded-tl-full rounded-bl-full  search_input px-5 border-r-0"
+          className="flex-1 h-full min-w-0 outline-none rounded-l-full px-4 py-2 border border-gray-200 focus:shadow-sm"
         />
-        <div className="bg-[#f2f2f2] rounded-tr-full rounded-br-full  search_input px-4 py-2 flex justify-center items-center">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            enableBackground="new 0 0 24 24"
-            height="24"
-            viewBox="0 0 24 24"
-            width="24"
-            focusable="false"
-            style={{
-              pointerEvents: "none",
-              display: "block",
+        <button className="border md:p-1 md:px-4 text-lg bg-gray-200 rounded-tr-full rounded-br-full">
+          <i className="fa-solid fa-magnifying-glass"></i>
+        </button>
+        {showSuggestion && suggestionData?.length > 0 && (
+          <div
+            className="hidden md:flex md:flex-col absolute top-full left-0 w-full mt-1 bg-white shadow-2xl rounded-lg z-50"
+            onBlur={() => {
+              setShowSuggestion(false);
+              if (searchInp === "") {
+                setSuggestionData([]);
+              }
             }}
           >
-            <path d="m20.87 20.17-5.59-5.59C16.35 13.35 17 11.75 17 10c0-3.87-3.13-7-7-7s-7 3.13-7 7 3.13 7 7 7c1.75 0 3.35-.65 4.58-1.71l5.59 5.59.7-.71zM10 16c-3.31 0-6-2.69-6-6s2.69-6 6-6 6 2.69 6 6-2.69 6-6 6z"></path>
-          </svg>
-        </div>
-        <div className="w-10 h-10 rounded-full ml-2 bg-[#f2f2f2] flex justify-center items-center">
-          <i className="fa-solid fa-microphone text-lg"></i>
-        </div>
+            <h2 className="py-2 text-sm px-4 text-gray-500">
+              Search Results for - {searchInp}
+            </h2>
+            <div className="px-2 pb-2 overflow-y-scroll max-h-72 text-sm">
+              {suggestionData?.map((item, i) => {
+                return (
+                  <h2
+                    key={i}
+                    className="py-1 px-2 cursor-pointer flex items-center gap-4 hover:text-gray-600 hover:bg-gray-200 rounded"
+                    onClick={() => {
+                      console.log(item);
+                      dispatch(setSearchQuery(item?.snippet?.title));
+                      setShowSuggestion(false);
+                    }}
+                  >
+                    <i className="fa-solid fa-magnifying-glass"></i>{" "}
+                    {item?.snippet?.title &&
+                      item?.snippet?.title?.split(" ")?.slice(0, 7).join(" ")}
+                  </h2>
+                );
+              })}
+            </div>
+          </div>
+        )}
       </div>
+
+      {/* <div className="w-10 h-10 rounded-full ml-2 bg-gray-200 flex justify-center items-center">
+        <i className="fa-solid fa-microphone text-lg"></i>
+      </div> */}
+
       <div className="flex  rounded-lg px-4 py-2 items-center gap-6">
         <svg
           xmlns="http://www.w3.org/2000/svg"

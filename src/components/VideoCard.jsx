@@ -52,13 +52,17 @@ const VideoCard = ({ videoObj }) => {
             )}
           </div>
           <div className="flex items-center gap-2  text-gray-500">
-            {videoObj?.statistics?.viewCount ? <span className="">
-              {videoObj?.statistics?.viewCount > 1000000
-                ? (videoObj?.statistics?.viewCount / 1000000)?.toFixed(1) +
-                  "M views"
-                : (videoObj?.statistics?.viewCount / 1000)?.toFixed(1) +
-                  " K views"}
-            </span> : <span>{Math.floor(Math.random() * 999) + "K views"}</span>}
+            {videoObj?.statistics?.viewCount ? (
+              <span className="">
+                {videoObj?.statistics?.viewCount > 1000000
+                  ? (videoObj?.statistics?.viewCount / 1000000)?.toFixed(1) +
+                    "M views"
+                  : (videoObj?.statistics?.viewCount / 1000)?.toFixed(1) +
+                    " K views"}
+              </span>
+            ) : (
+              <span>{Math.floor(Math.random() * 999) + "K views"}</span>
+            )}
             <span>•</span>
             <span>{timeAgo}</span>
           </div>
