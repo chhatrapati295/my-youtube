@@ -30,7 +30,7 @@ const VideoCard = ({ videoObj }) => {
         />
         <div className="flex flex-col text-sm">
           <p className="flex flex-wrap font-[500]">
-            {videoObj?.snippet?.localized?.title}
+            {videoObj?.snippet?.localized?.title ?? videoObj?.snippet?.title}
           </p>
           <div className="flex items-center  mt-1  text-gray-500">
             <span className="">{videoObj?.snippet?.channelTitle}</span>

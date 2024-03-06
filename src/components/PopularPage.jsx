@@ -32,6 +32,9 @@ const PopularPage = () => {
   }, []);
 
   useEffect(() => {
+    if (searchSliceData === "") {
+      return;
+    }
     getSearchVideoData(searchSliceData);
   }, [searchSliceData]);
 

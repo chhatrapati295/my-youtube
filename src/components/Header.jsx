@@ -35,6 +35,13 @@ const Header = () => {
   // const notify = () => toast("Wow so easy !");
   // notify();
 
+  const handleFormSubmit = (e) => {
+    e.preventDefault();
+    // console.log("submmited");
+    dispatch(setSearchQuery(searchInp));
+    setShowSuggestion(false);
+  };
+
   return (
     <div className="flex justify-between items-center w-full px-6 py-1">
       <div className="flex gap-6 items-center w-fit ">
@@ -97,7 +104,9 @@ const Header = () => {
         </svg>
       </div>
 
-      <div
+      <form
+        action=""
+        onSubmit={handleFormSubmit}
         className="flex items-center rounded-lg p-2 md:p-0 md:flex-shrink-0 md:w-96 md:relative header_search"
         onFocus={() => setShowSuggestion(true)}
       >
@@ -105,12 +114,16 @@ const Header = () => {
           value={searchInp}
           onChange={(e) => {
             setSearchInp(e.target.value);
+            setShowSuggestion(true);
           }}
           type="text"
           placeholder="Search"
           className="flex-1 h-full min-w-0 outline-none rounded-l-full px-4 py-2 border border-gray-200 focus:shadow-sm"
         />
-        <button className="border md:p-1 md:px-4 text-lg bg-gray-200 rounded-tr-full rounded-br-full">
+        <button
+          type="submit"
+          className="border md:p-1 md:px-4 text-lg bg-gray-200 rounded-tr-full rounded-br-full"
+        >
           <i className="fa-solid fa-magnifying-glass"></i>
         </button>
         {showSuggestion && suggestionData?.length > 0 && (
@@ -147,7 +160,7 @@ const Header = () => {
             </div>
           </div>
         )}
-      </div>
+      </form>
 
       {/* <div className="w-10 h-10 rounded-full ml-2 bg-gray-200 flex justify-center items-center">
         <i className="fa-solid fa-microphone text-lg"></i>

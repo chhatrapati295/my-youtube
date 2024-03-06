@@ -1,25 +1,29 @@
+import { Link } from "react-router-dom";
+
 const SmallSidebar = () => {
   return (
     <div className="flex flex-col gap-4 py-4 w-16 md:w-20 mx-1 text-[0.6rem] font-[400] h-full">
-      <div className="flex flex-col items-center gap-1 cursor-pointer hover:bg-[#f2f2f2] p-2   rounded-md">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          enableBackground="new 0 0 24 24"
-          height="24"
-          viewBox="0 0 24 24"
-          width="24"
-          focusable="false"
-          style={{
-            pointerEvents: "none",
-            display: "block",
-          }}
-        >
-          <g>
-            <path d="M4 21V10.08l8-6.96 8 6.96V21h-6v-6h-4v6H4z"></path>
-          </g>
-        </svg>
-        <span>Home</span>
-      </div>
+      <Link to={"/"}>
+        <div className="flex flex-col items-center gap-1 cursor-pointer hover:bg-[#f2f2f2] p-2   rounded-md">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            enableBackground="new 0 0 24 24"
+            height="24"
+            viewBox="0 0 24 24"
+            width="24"
+            focusable="false"
+            style={{
+              pointerEvents: "none",
+              display: "block",
+            }}
+          >
+            <g>
+              <path d="M4 21V10.08l8-6.96 8 6.96V21h-6v-6h-4v6H4z"></path>
+            </g>
+          </svg>
+          <span>Home</span>
+        </div>
+      </Link>
       <div className="flex flex-col items-center gap-1 cursor-pointer hover:bg-[#f2f2f2] p-2   rounded-md">
         <svg
           xmlns="http://www.w3.org/2000/svg"
