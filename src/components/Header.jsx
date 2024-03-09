@@ -1,14 +1,29 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { search_suggestion_api } from "../utils";
 import { useDispatch } from "react-redux";
 import { setSearchQuery } from "../store/slices/searchSlice";
 import "react-toastify/dist/ReactToastify.css";
+import youtube_sm from "../assets/youtube_sm.png";
 
 const Header = () => {
   const dispatch = useDispatch();
   const [searchInp, setSearchInp] = useState("");
   const [showSuggestion, setShowSuggestion] = useState(false);
   const [suggestionData, setSuggestionData] = useState([]);
+  const searchRef = useRef(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (searchRef.current && !searchRef.current.contains(event.target)) {
+        setShowSuggestion(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   useEffect(() => {
     // if (searchInp !== "") {
@@ -43,8 +58,8 @@ const Header = () => {
   };
 
   return (
-    <div className="flex justify-between items-center w-full px-6 py-1">
-      <div className="flex gap-6 items-center w-fit ">
+    <div className="flex justify-between items-center w-full md:px-6 py-1 px-4">
+      <div className="md:flex gap-6 items-center w-fit hidden ">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           height="24"
@@ -103,32 +118,35 @@ const Header = () => {
           </svg>
         </svg>
       </div>
+      <img src={youtube_sm} className="md:hidden w-9 h-9" alt="" />
 
       <form
+        ref={searchRef}
         action=""
         onSubmit={handleFormSubmit}
-        className="flex items-center rounded-lg p-2 md:p-0 md:flex-shrink-0 md:w-96 md:relative header_search"
+        className="flex items-center rounded-lg bg-gray-200 md:flex-shrink-0 w-[70%]  md:w-96 md:relative header_search"
         onFocus={() => setShowSuggestion(true)}
       >
         <input
           value={searchInp}
+          autoFocus
           onChange={(e) => {
             setSearchInp(e.target.value);
             setShowSuggestion(true);
           }}
           type="text"
           placeholder="Search"
-          className="flex-1 h-full min-w-0 outline-none rounded-l-full px-4 py-2 border border-gray-200 focus:shadow-sm"
+          className="flex-1 h-full min-w-0 outline-none rounded-l-lg px-4 py-2 text-xs md:text-md border focus:shadow-sm"
         />
         <button
           type="submit"
-          className="border md:p-1 md:px-4 text-lg bg-gray-200 rounded-tr-full rounded-br-full"
+          className=" md:p-1 md:px-4 px-2  text-sm py-1 rounded-tr-full rounded-br-full"
         >
           <i className="fa-solid fa-magnifying-glass"></i>
         </button>
         {showSuggestion && suggestionData?.length > 0 && (
           <div
-            className="hidden md:flex md:flex-col absolute top-full left-0 w-full mt-1 bg-white shadow-2xl rounded-lg z-50"
+            className=" md:flex md:flex-col absolute top-full left-0 w-full mt-1 bg-white shadow-2xl rounded-lg z-50 text-xs text-gray-500"
             onBlur={() => {
               setShowSuggestion(false);
               if (searchInp === "") {
@@ -136,15 +154,15 @@ const Header = () => {
               }
             }}
           >
-            <h2 className="py-2 text-sm px-4 text-gray-500">
+            <h2 className="py-2 px-4 font-medium">
               Search Results for - {searchInp}
             </h2>
-            <div className="px-2 pb-2 overflow-y-scroll max-h-72 text-sm">
+            <div className="px-2 pb-2 overflow-y-scroll max-h-72 ">
               {suggestionData?.map((item, i) => {
                 return (
                   <h2
                     key={i}
-                    className="py-1 px-2 cursor-pointer flex items-center gap-4 hover:text-gray-600 hover:bg-gray-200 rounded"
+                    className="py-1 px-2 cursor-pointer flex items-center gap-4  hover:bg-gray-100 rounded"
                     onClick={() => {
                       console.log(item);
                       dispatch(setSearchQuery(item?.snippet?.title));
@@ -166,7 +184,7 @@ const Header = () => {
         <i className="fa-solid fa-microphone text-lg"></i>
       </div> */}
 
-      <div className="flex  rounded-lg px-4 py-2 items-center gap-6">
+      <div className="flex  rounded-lg py-2 items-center gap-6">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           height="24"
@@ -199,7 +217,7 @@ const Header = () => {
         <img
           src="https://yt3.ggpht.com/I7hg7YUIh08apcB3V7eTJfw8M_apjQ5HzOWQXRcVueIN4LbWfhxwyWvQLGRWkI0unElSz9yfWuU=s88-c-k-c0x00ffffff-no-rj"
           alt=""
-          className="h-8 w-8 md:w-auto rounded-full"
+          className="w-8 h-8 md:h-8 p-0 md:w-auto rounded-full"
         />
       </div>
     </div>

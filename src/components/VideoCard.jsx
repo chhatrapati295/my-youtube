@@ -10,7 +10,7 @@ const VideoCard = ({ videoObj }) => {
 
   // console.log(momObj);
   return (
-    <div className="w-[360px] flex flex-col gap-3 cursor-pointer">
+    <div className="max-w-[340px] flex flex-col gap-3 cursor-pointer">
       <img
         src={
           videoObj?.snippet?.thumbnails?.maxres?.url ??

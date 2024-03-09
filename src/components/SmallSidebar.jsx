@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 
 const SmallSidebar = () => {
   return (
-    <div className="flex flex-col gap-4 py-4 w-16 md:w-20 mx-1 text-[0.6rem] font-[400] h-full">
+    <div className="hidden md:flex flex-col gap-4 py-4 w-16 md:w-20 mx-1 text-[0.6rem] font-[400] h-full">
       <Link to={"/"}>
         <div className="flex flex-col items-center gap-1 cursor-pointer hover:bg-[#f2f2f2] p-2   rounded-md">
           <svg

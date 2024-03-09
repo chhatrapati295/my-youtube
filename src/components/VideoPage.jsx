@@ -89,8 +89,8 @@ const VideoPage = () => {
   };
 
   return (
-    <div className="px-8 pt-4 video_page flex flex-col md:flex-row items-start gap-8">
-      <div className="w-full md:w-8/12 flex flex-col gap-4 h-full">
+    <div className="md:px-2 px-4 pt-4 video_page flex flex-col md:flex-row items-start md:gap-8 gap-4">
+      <div className="w-full md:w-8/12 md:pl-6 flex flex-col gap-4 h-full">
         <iframe
           width="100%"
           style={{ minHeight: "380px" }}
@@ -104,17 +104,17 @@ const VideoPage = () => {
         {videoDetails?.map((item, i) => {
           return (
             <div className="flex flex-col gap-4" key={i}>
-              <h3 className="font-bold text-xl">
+              <h3 className="font-bold md:text-xl text-base">
                 {videoDetails[0]?.snippet?.title}
               </h3>
               <div className="flex justify-between items-center">
-                <div className="flex gap-4 items-center">
+                <div className="flex gap-4 items-center whitespace-nowrap">
                   <img
                     src={channelDetails?.snippet?.thumbnails?.high?.url}
                     alt="Channel Thumbnail"
                     className="h-10 w-10 rounded-full"
                   />
-                  <div className="flex flex-col text-base">
+                  <div className="flex flex-col md:text-base text-sm">
                     <span className="font-bold text-gray-500">
                       {item?.snippet?.channelTitle}
                     </span>
@@ -133,7 +133,7 @@ const VideoPage = () => {
                     </span>
                   </div>
                   <button
-                    className={`py-2 px-6 text-base font-[400] rounded-full ${
+                    className={`py-2 px-6 md:text-sm text-xs font-[400] rounded-full ${
                       subscribeRef.current
                         ? "bg-gray-300 text-black"
                         : "bg-black text-white"
@@ -157,7 +157,7 @@ const VideoPage = () => {
           );
         })}
       </div>
-      <div className="w-full md:w-4/12 flex md:gap-0 flex-col gap-4 h-full overflow-y-scroll hide_scroll">
+      <div className="w-full md:w-4/12 pr-4 flex md:gap-0 flex-col gap-4 h-full overflow-y-scroll ">
         {categoryItems && (
           <div className="flex items-center">
             <div

@@ -91,7 +91,7 @@ const PopularPage = () => {
   };
 
   return (
-    <div className=" h-full popular_page px-1 ">
+    <div className=" h-full w-[90%] m-auto md:m-0 md:w-[92%]  popular_page px-1 ">
       <ToastContainer
         position="bottom-left"
         autoClose={1900}
@@ -130,7 +130,7 @@ const PopularPage = () => {
           })}
         </div>
         <i
-          className="fa-solid fa-circle-chevron-right scroll-button cursor-pointer text-lg px-4 bg-none"
+          className="fa-solid fa-circle-chevron-right scroll-button cursor-pointer text-lg pl-4 bg-none"
           onClick={handleScrollRight}
         ></i>
       </div>
@@ -144,7 +144,7 @@ const PopularPage = () => {
           <span>Videos not available</span>
         </div>
       ) : (
-        <div className="flex flex-wrap gap-x-6 gap-y-12 py-2 overflow-y-scroll video_container">
+        <div className="flex flex-wrap gap-x-12 gap-y-12 py-2 overflow-y-scroll justify-center md:justify-stretch video_container ">
           {popularData?.items?.map((videoObj, i) => (
             <Link
               to={
