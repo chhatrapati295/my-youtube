@@ -89,12 +89,12 @@ const VideoPage = () => {
   };
 
   return (
-    <div className="md:px-2 px-4 pt-4 video_page flex flex-col md:flex-row items-start md:gap-8 gap-4">
-      <div className="w-full md:w-8/12 md:pl-6 flex flex-col gap-4 h-full">
+    <div className="md:px-2 px-4 md:pt-4 pt-2 video_page flex flex-col md:flex-row items-start md:gap-8 gap-4">
+      <div className="w-full md:w-8/12 md:pl-6 flex flex-col gap-4 md:h-full">
         <iframe
           width="100%"
-          style={{ minHeight: "380px" }}
-          className="rounded-xl"
+          // style={{ minHeight: "380px" }}
+          className="rounded-xl md:min-h-[380px] min-h-[250px]"
           src={`https://www.youtube.com/embed/${id}?autoplay=1&si=ChLSfIsfR848SCc6`}
           title="YouTube video player"
           frameBorder="0"
@@ -111,7 +111,7 @@ const VideoPage = () => {
                 <div className="flex gap-4 items-center whitespace-nowrap">
                   <img
                     src={channelDetails?.snippet?.thumbnails?.high?.url}
-                    alt="Channel Thumbnail"
+                    alt="Img"
                     className="h-10 w-10 rounded-full"
                   />
                   <div className="flex flex-col md:text-base text-sm">

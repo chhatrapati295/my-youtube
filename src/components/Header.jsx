@@ -124,7 +124,7 @@ const Header = () => {
         ref={searchRef}
         action=""
         onSubmit={handleFormSubmit}
-        className="flex items-center rounded-lg bg-gray-200 md:flex-shrink-0 w-[70%]  md:w-96 md:relative header_search"
+        className="flex items-center rounded-full bg-gray-100 md:flex-shrink-0 w-[70%] md:text-lg  md:w-[35%] md:relative header_search border border-gray-300 "
         onFocus={() => setShowSuggestion(true)}
       >
         <input
@@ -136,13 +136,13 @@ const Header = () => {
           }}
           type="text"
           placeholder="Search"
-          className="flex-1 h-full min-w-0 outline-none rounded-l-lg px-4 py-2 text-xs md:text-md border focus:shadow-sm"
+          className="flex-1 h-full min-w-0 outline-none border-r  rounded-l-full px-4 py-2.5 text-xs focus:shadow-sm"
         />
         <button
           type="submit"
-          className=" md:p-1 md:px-4 px-2  text-sm py-1 rounded-tr-full rounded-br-full"
+          className=" md:p-1 md:px-4 px-4  text-sm py-1 rounded-r-full search_btn"
         >
-          <i className="fa-solid fa-magnifying-glass"></i>
+          <i className="fa-solid fa-magnifying-glass md:text-md"></i>
         </button>
         {showSuggestion && suggestionData?.length > 0 && (
           <div

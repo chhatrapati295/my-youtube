@@ -91,7 +91,7 @@ const PopularPage = () => {
   };
 
   return (
-    <div className=" h-full w-[90%] m-auto md:m-0 md:w-[92%]  popular_page px-1 ">
+    <div className=" h-full w-[95%] m-auto md:m-0 md:w-[92%]  popular_page px-1 ">
       <ToastContainer
         position="bottom-left"
         autoClose={1900}
@@ -107,7 +107,7 @@ const PopularPage = () => {
       />
       <div className="flex w-full items-center">
         <div
-          className="flex gap-3 items-center overflow-x-scroll hide_scroll my-4 mr-1"
+          className="flex gap-3 items-center overflow-x-scroll hide_scroll md:my-4 mt-1 mb-2 mr-1"
           ref={containerRef}
           style={{
             scrollBehavior: "smooth",
@@ -118,7 +118,7 @@ const PopularPage = () => {
             return (
               <button
                 key={i}
-                className=" bg-[#f2f2f2] py-[6px] px-4 text-gray-700 rounded-lg text-xs font-[500] min-w-fit focus:bg-black focus:text-white"
+                className=" bg-[#f2f2f2] py-[6px] px-4 text-gray-900 rounded-lg text-xs font-[600] min-w-fit focus:bg-black focus:text-white"
                 onClick={() => {
                   setVidCategory(item?.id);
                   getCategoryVideoData(item?.id);

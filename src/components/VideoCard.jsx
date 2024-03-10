@@ -10,14 +10,14 @@ const VideoCard = ({ videoObj }) => {
 
   // console.log(momObj);
   return (
-    <div className="max-w-[340px] flex flex-col gap-3 cursor-pointer">
+    <div className="md:max-w-[340px] md:min-w-[340px] min-w-[380px] flex flex-col gap-3 cursor-pointer">
       <img
         src={
           videoObj?.snippet?.thumbnails?.maxres?.url ??
           videoObj?.snippet?.thumbnails?.high?.url
         }
         alt=""
-        className="w-full h-[208px] rounded-xl hover:scale-105 transition-all duration-200 ease-in-out"
+        className="w-full h-[208px] rounded-xl hover:rounded-none transition-all duration-200 ease-in-out"
       />
       <div className="flex gap-3">
         <img

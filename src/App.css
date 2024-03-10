@@ -23,8 +23,15 @@ body {
   width: calc(100vw - 80px);
 }
 .video_container {
-  height: calc(100vh - 120px);
+  height: calc(100vh - 117px);
 }
 .video_page {
   height: calc(100vh - 58px);
+}
+/* .header_search {
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 5px 0px,
+    rgba(0, 0, 0, 0.1) 0px 0px 1px 0px;
+} */
+.search_btn:active i {
+  transform: scale(1.2);
 }
