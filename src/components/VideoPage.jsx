@@ -89,7 +89,7 @@ const VideoPage = () => {
   };
 
   return (
-    <div className="md:px-2 px-4 md:pt-4 pt-2 video_page flex flex-col md:flex-row items-start md:gap-8 gap-4">
+    <div className="md:px-0 px-4 md:pt-16 pt-16 video_page flex flex-col  md:flex-row items-start md:gap-8 gap-4">
       <div className="w-full md:w-8/12 md:pl-6 flex flex-col gap-4 md:h-full">
         <iframe
           width="100%"
@@ -110,13 +110,16 @@ const VideoPage = () => {
               <div className="flex justify-between items-center">
                 <div className="flex gap-4 items-center whitespace-nowrap">
                   <img
-                    src={channelDetails?.snippet?.thumbnails?.high?.url}
+                    src={
+                      channelDetails?.snippet?.thumbnails?.high?.url ??
+                      "https://img.freepik.com/free-vector/illustration-businessman_53876-5856.jpg?w=740&t=st=1710611958~exp=1710612558~hmac=482083950f742fec41e69c51ab7e7bdaac4b5119dad82c2d9bc782a8037a3032"
+                    }
                     alt="Img"
                     className="h-10 w-10 rounded-full"
                   />
                   <div className="flex flex-col md:text-base text-sm">
                     <span className="font-bold text-gray-500">
-                      {item?.snippet?.channelTitle}
+                      {item?.snippet?.channelTitle ?? item?.snippet.title}
                     </span>
                     <span className="text-xs text-gray-500">
                       {channelDetails?.statistics?.subscriberCount % 1000000 ===
@@ -157,7 +160,7 @@ const VideoPage = () => {
           );
         })}
       </div>
-      <div className="w-full md:w-4/12 pr-4 flex md:gap-0 flex-col gap-4 h-full overflow-y-scroll ">
+      <div className="w-full md:w-4/12 flex md:gap-0 flex-col gap-4 h-full overflow-y-scroll ">
         {categoryItems && (
           <div className="flex items-center">
             <div
@@ -190,7 +193,12 @@ const VideoPage = () => {
         {suggestData &&
           suggestData?.map((item, i) => {
             return (
-              <Link to={`/watch/${item?.id}`} key={i}>
+              <Link
+                className="pr-4"
+                to={`/watch/${item?.id}`}
+                key={i}
+                onClick={() => getChannelData(item?.snippet?.channelId)}
+              >
                 <SmallVideoCard data={item} />
               </Link>
             );

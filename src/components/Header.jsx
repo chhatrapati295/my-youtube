@@ -58,7 +58,7 @@ const Header = () => {
   };
 
   return (
-    <div className="flex justify-between items-center w-full md:px-6 py-1 px-4">
+    <div className="z-50 flex justify-between items-center w-full md:px-6 py-1 px-4 fixed bg-white">
       <div className="md:flex gap-6 items-center w-fit hidden ">
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -118,13 +118,13 @@ const Header = () => {
           </svg>
         </svg>
       </div>
-      <img src={youtube_sm} className="md:hidden w-9 h-9" alt="" />
+      <img src={youtube_sm} className="md:hidden w-9 h-9 rounded-2xl" alt="" />
 
       <form
         ref={searchRef}
         action=""
         onSubmit={handleFormSubmit}
-        className="flex items-center rounded-full bg-gray-100 md:flex-shrink-0 w-[70%] md:text-lg  md:w-[35%] md:relative header_search border border-gray-300 "
+        className="flex items-center rounded-full bg-gray-100 md:flex-shrink-0 w-[70%] md:text-lg  md:w-[45%] md:relative header_search border border-gray-300"
         onFocus={() => setShowSuggestion(true)}
       >
         <input
@@ -136,7 +136,7 @@ const Header = () => {
           }}
           type="text"
           placeholder="Search"
-          className="flex-1 h-full min-w-0 outline-none border-r  rounded-l-full px-4 py-2.5 text-xs focus:shadow-sm"
+          className="flex-1 h-full min-w-0 outline-none border-r  rounded-l-full px-4 py-2.5 text-sm"
         />
         <button
           type="submit"
@@ -146,7 +146,7 @@ const Header = () => {
         </button>
         {showSuggestion && suggestionData?.length > 0 && (
           <div
-            className=" md:flex md:flex-col absolute top-full left-0 w-full mt-1 bg-white shadow-2xl rounded-lg z-50 text-xs text-gray-500"
+            className=" md:flex md:flex-col absolute md:top-full top-12 left-1/2 transform -translate-x-1/2   md:w-full w-9/12 md:mt-1 bg-white shadow-2xl rounded-lg z-50 text-xs text-gray-500 "
             onBlur={() => {
               setShowSuggestion(false);
               if (searchInp === "") {

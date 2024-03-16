@@ -8,17 +8,44 @@ const VideoCard = ({ videoObj }) => {
 
   const timeAgo = formatDistanceToNow(publishedAt, { addSuffix: true });
 
+  function convertISO8601DurationToTime(duration) {
+    const matches = duration?.match(/PT(\d+H)?(\d+M)?(\d+S)?/);
+    if(!matches) return
+
+    const hours = parseInt(matches[1]) || 0;
+    const minutes = parseInt(matches[2]) || 0;
+    const seconds = parseInt(matches[3]) || 0;
+
+    const totalSeconds = hours * 3600 + minutes * 60 + seconds;
+
+    // const hoursPart = Math.floor(totalSeconds / 3600);
+    const minutesPart = Math.floor((totalSeconds % 3600) / 60);
+    const secondsPart = totalSeconds % 60;
+
+    return `${
+      minutesPart < 10 ? String(minutesPart).padStart(2, "0") : minutesPart
+    }:${secondsPart < 10 ? String(secondsPart).padStart(2, "0") : secondsPart}`;
+  }
+
+  const time = convertISO8601DurationToTime(videoObj?.contentDetails?.duration);
+  console.log(time); // Output: { hours: 0, minutes: 15, seconds: 23 }
+
   // console.log(momObj);
   return (
-    <div className="md:max-w-[340px] md:min-w-[340px] min-w-[90vw] max-w-full flex flex-col gap-3 cursor-pointer">
-      <img
-        src={
-          videoObj?.snippet?.thumbnails?.maxres?.url ??
-          videoObj?.snippet?.thumbnails?.high?.url
-        }
-        alt=""
-        className="w-full h-[208px] rounded-xl hover:rounded-none transition-all duration-200 ease-in-out"
-      />
+    <div className="md:max-w-[340px] md:min-w-[340px] min-w-[92vw] max-w-full flex flex-col gap-3 cursor-pointer">
+      <div className="w-full h-[208px] relative">
+        <img
+          src={
+            videoObj?.snippet?.thumbnails?.maxres?.url ??
+            videoObj?.snippet?.thumbnails?.high?.url
+          }
+          className="w-full h-full rounded-xl hover:rounded-none transition-all duration-200 ease-in-out"
+          alt=""
+        />
+        <span className="absolute bottom-2 right-2 bg-black text-white text-[0.7rem] font-semibold py-[2px] px-1 rounded-md">
+          {time ?? ""}
+        </span>
+      </div>
       <div className="flex gap-3">
         <img
           src={

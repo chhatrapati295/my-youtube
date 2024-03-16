@@ -91,7 +91,7 @@ const PopularPage = () => {
   };
 
   return (
-    <div className=" h-full w-[95%] m-auto md:m-0 md:w-[92%]  popular_page px-1 ">
+    <div className=" h-full w-[95%] m-auto md:m-0 popular_page ">
       <ToastContainer
         position="bottom-left"
         autoClose={1900}
@@ -105,9 +105,9 @@ const PopularPage = () => {
         theme="dark"
         transition:Bounce
       />
-      <div className="flex w-full items-center">
+      <div className="flex items-center gap-3 w-full md:pb-6 md:pt-3 py-1">
         <div
-          className="flex gap-3 items-center overflow-x-scroll hide_scroll md:my-4 mt-1 mb-2 mr-1"
+          className="flex gap-3 items-center overflow-x-scroll hide_scroll w-11/12"
           ref={containerRef}
           style={{
             scrollBehavior: "smooth",
@@ -118,7 +118,7 @@ const PopularPage = () => {
             return (
               <button
                 key={i}
-                className=" bg-[#f2f2f2] py-[6px] px-4 text-gray-900 rounded-lg text-xs font-[600] min-w-fit focus:bg-black focus:text-white"
+                className=" bg-[#f2f2f2] py-[6px] px-4 text-gray-900 rounded-lg text-[0.85rem] font-[500] min-w-fit focus:bg-black focus:text-white"
                 onClick={() => {
                   setVidCategory(item?.id);
                   getCategoryVideoData(item?.id);
@@ -130,7 +130,7 @@ const PopularPage = () => {
           })}
         </div>
         <i
-          className="fa-solid fa-circle-chevron-right scroll-button cursor-pointer text-lg pl-4 bg-none"
+          className="fa-solid fa-circle-chevron-right scroll-button cursor-pointer text-lg md:px-4 px-2 bg-none"
           onClick={handleScrollRight}
         ></i>
       </div>
@@ -144,7 +144,7 @@ const PopularPage = () => {
           <span>Videos not available</span>
         </div>
       ) : (
-        <div className="flex flex-wrap gap-x-12 gap-y-12 py-2 overflow-y-scroll justify-center md:justify-stretch video_container ">
+        <div className="flex flex-wrap gap-x-12 gap-y-12 py-2  justify-center md:justify-stretch video_container ">
           {popularData?.items?.map((videoObj, i) => (
             <Link
               to={

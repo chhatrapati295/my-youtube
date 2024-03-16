@@ -6,7 +6,7 @@
 body {
   height: 100vh;
   width: 100vw;
-  overflow: hidden;
+  overflow-x: hidden;
   font-family: "Roboto", sans-serif;
 }
 .search_input {
@@ -21,17 +21,19 @@ body {
 }
 .popular_page {
   width: calc(100vw - 80px);
+  /* overflow-y: scroll; */
 }
 .video_container {
   height: calc(100vh - 117px);
 }
 .video_page {
-  height: calc(100vh - 58px);
+  /* height: calc(100vh - 58px); */
+  height: 100vh;
 }
-/* .header_search {
-  box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 5px 0px,
-    rgba(0, 0, 0, 0.1) 0px 0px 1px 0px;
-} */
+.header_search {
+  box-shadow: rgba(60, 64, 67, 0.1) 0px 1px 1px 0px,
+    rgba(60, 64, 67, 0.05) 0px 1px 1px 1px;
+}
 .search_btn:active i {
   transform: scale(1.2);
 }
