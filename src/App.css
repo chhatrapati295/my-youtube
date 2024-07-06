@@ -19,21 +19,20 @@ body {
 .hide_scroll::-webkit-scrollbar {
   display: none;
 }
-.popular_page {
-  width: calc(100vw - 80px);
-  /* overflow-y: scroll; */
+@media (min-width: 768px) {
+  .popular_page {
+    width: calc(100vw - 80px);
+  }
 }
-.video_container {
-  height: calc(100vh - 117px);
+@media (max-width: 768px) {
+  .popular_page {
+    width: 95%;
+  }
 }
 .video_page {
-  /* height: calc(100vh - 58px); */
   height: 100vh;
 }
-.header_search {
-  box-shadow: rgba(60, 64, 67, 0.1) 0px 1px 1px 0px,
-    rgba(60, 64, 67, 0.05) 0px 1px 1px 1px;
-}
+
 .search_btn:active i {
   transform: scale(1.2);
 }

@@ -7,6 +7,8 @@ import {
   videoPlayer_api,
 } from "../utils";
 import SmallVideoCard from "./SmallVideoCard";
+import { useQuery } from "@tanstack/react-query";
+import { useSelector } from "react-redux";
 
 const VideoPage = () => {
   const { id } = useParams();
@@ -16,9 +18,14 @@ const VideoPage = () => {
   const [videoDetails, setVideoDetails] = useState(null);
   const [channelDetails, setChannelDetails] = useState(null);
   const [channelId, setChannelId] = useState("");
+  // eslint-disable-next-line no-unused-vars
   const [subscribe, setSubscribe] = useState("");
   const subscribeRef = useRef(false);
   const containerRef = useRef(null);
+  const theme = useSelector((state) => state.theme.dark);
+
+  // const {data , isLoading , isError} = useQuery({ queryKey: ['videoDetail'], queryFn: getVideoDetails })
+  // console.log(data)
 
   useEffect(() => {
     getCategories();
@@ -68,6 +75,7 @@ const VideoPage = () => {
         throw new Error("Failed to fetch video details");
       }
       const data = await url.json();
+      console.log(data);
       setVideoDetails(data?.items);
       setChannelId(data?.items && data?.items[0]?.snippet?.channelId);
     } catch (error) {
@@ -89,12 +97,16 @@ const VideoPage = () => {
   };
 
   return (
-    <div className="md:px-0 px-4 md:pt-16 pt-16 video_page flex flex-col  md:flex-row items-start md:gap-8 gap-4">
-      <div className="w-full md:w-8/12 md:pl-6 flex flex-col gap-4 md:h-full">
+    <div
+      className={`md:px-0 px-4 md:pt-16 pt-16 video_page flex flex-col  md:flex-row items-start md:gap-8 gap-4  ${
+        theme ? "bg-white" : "bg-[#0f0f0f] text-white"
+      } `}
+    >
+      <div className="w-full md:w-[67%] md:pl-6 flex flex-col gap-4 md:h-full">
         <iframe
           width="100%"
           // style={{ minHeight: "380px" }}
-          className="rounded-xl md:min-h-[380px] min-h-[250px]"
+          className="rounded-xl md:h-[70%] h-[200px]"
           src={`https://www.youtube.com/embed/${id}?autoplay=1&si=ChLSfIsfR848SCc6`}
           title="YouTube video player"
           frameBorder="0"
@@ -139,7 +151,7 @@ const VideoPage = () => {
                     className={`py-2 px-6 md:text-sm text-xs font-[400] rounded-full ${
                       subscribeRef.current
                         ? "bg-gray-300 text-black"
-                        : "bg-black text-white"
+                        : "bg-gray-800 text-white"
                     }`}
                     onClick={() => {
                       subscribeRef.current = !subscribeRef.current;
@@ -160,7 +172,7 @@ const VideoPage = () => {
           );
         })}
       </div>
-      <div className="w-full md:w-4/12 flex md:gap-0 flex-col gap-4 h-full overflow-y-scroll ">
+      <div className="w-full md:w-[30%] flex md:gap-0 flex-col gap-4 h-full overflow-y-scroll ">
         {categoryItems && (
           <div className="flex items-center">
             <div
@@ -174,7 +186,11 @@ const VideoPage = () => {
               {categoryItems?.items?.map((item, i) => (
                 <button
                   key={i}
-                  className="bg-[#f2f2f2] py-[6px] px-4 text-gray-900 rounded-md text-xs font-[600] min-w-fit focus:bg-black focus:text-white"
+                  className={` ${
+                    theme
+                      ? "bg-[#f2f2f2] text-black"
+                      : "bg-[#FFFFFF1A] text-white"
+                  } py-[6px] px-4 rounded-md text-xs font-[600] min-w-fit`}
                   onClick={() => {
                     setCategoryId(item?.id);
                     getCategoryVideoData(item?.id);

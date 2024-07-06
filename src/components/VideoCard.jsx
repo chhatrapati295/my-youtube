@@ -1,7 +1,9 @@
 import PropTypes from "prop-types";
 import { formatDistanceToNow } from "date-fns";
+import { useSelector } from "react-redux";
 
 const VideoCard = ({ videoObj }) => {
+  const theme = useSelector((state) => state.theme.dark);
   // const momObj = moment(videoObj?.snippet?.publishedAt);
   const publishedAtString = videoObj?.snippet?.publishedAt;
   const publishedAt = new Date(publishedAtString);
@@ -10,7 +12,7 @@ const VideoCard = ({ videoObj }) => {
 
   function convertISO8601DurationToTime(duration) {
     const matches = duration?.match(/PT(\d+H)?(\d+M)?(\d+S)?/);
-    if(!matches) return
+    if (!matches) return;
 
     const hours = parseInt(matches[1]) || 0;
     const minutes = parseInt(matches[2]) || 0;
@@ -32,7 +34,7 @@ const VideoCard = ({ videoObj }) => {
 
   // console.log(momObj);
   return (
-    <div className="md:max-w-[340px] md:min-w-[340px] min-w-[92vw] max-w-full flex flex-col gap-3 cursor-pointer">
+    <div className=" flex flex-col gap-3 cursor-pointer">
       <div className="w-full h-[208px] relative">
         <img
           src={
@@ -56,7 +58,11 @@ const VideoCard = ({ videoObj }) => {
           className="w-10 h-10 rounded-full object-cover"
         />
         <div className="flex flex-col text-sm">
-          <p className="flex flex-wrap font-[500]">
+          <p
+            className={`flex flex-wrap font-[500] ${
+              !theme ? "text-white" : "text-[#0f0f0f]"
+            }`}
+          >
             {videoObj?.snippet?.localized?.title ?? videoObj?.snippet?.title}
           </p>
           <div className="flex items-center  mt-1  text-gray-500">
