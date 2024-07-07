@@ -171,7 +171,7 @@ const VideoPage = () => {
                   </button>
                 </div>
                 <div
-                  className={`flex gap-3 items-center  ${
+                  className={`hidden md:flex gap-3 items-center  ${
                     theme ? "text-black bg-gray-100" : "bg-gray-800 text-white"
                   }  rounded-full py-2 px-4`}
                 >
