@@ -13,6 +13,7 @@ const Header = () => {
   const [searchInp, setSearchInp] = useState("");
   const [showSuggestion, setShowSuggestion] = useState(false);
   const [suggestionData, setSuggestionData] = useState([]);
+  const [showSidebar, setShowSidebar] = useState(false);
   const searchRef = useRef(null);
   const theme = useSelector((state) => state.theme.dark);
 
@@ -61,14 +62,18 @@ const Header = () => {
     setShowSuggestion(false);
   };
 
+  const handleToggleSidebar = () => {
+    setShowSidebar(!showSidebar);
+  };
+
   return (
     <div
       className={`z-50 flex justify-between items-center w-full md:px-6 py-1 px-4 fixed ${
         theme ? "bg-white" : "bg-[#0f0f0f]"
       }`}
     >
-      <div className="md:flex gap-6 items-center w-fit hidden ">
-        <svg
+      <div className="md:flex gap-3 items-center w-fit hidden ">
+        {/* <svg
           xmlns="http://www.w3.org/2000/svg"
           height="24"
           viewBox="0 0 24 24"
@@ -79,7 +84,6 @@ const Header = () => {
             display: "block",
             width: "7%",
             height: "7%",
-            marginLeft: "0.4rem",
             cursor: "pointer",
           }}
         >
@@ -87,7 +91,7 @@ const Header = () => {
             d="M21 6H3V5h18v1zm0 5H3v1h18v-1zm0 6H3v1h18v-1z"
             fill={`${theme ? "#000" : "#fff"}`}
           ></path>
-        </svg>
+        </svg> */}
         {theme ? (
           <Link to={"/"}>
             <svg
@@ -242,7 +246,7 @@ const Header = () => {
         {showSuggestion && suggestionData?.length > 0 && (
           <div
             className={`md:flex md:flex-col absolute md:top-full top-12 left-1/2 transform -translate-x-1/2   md:w-full w-9/12 z-50 md:mt-1 ${
-              theme ? "bg-gray-200 " : "bg-[#2b2a2a] text-gray-100"
+              theme ? "bg-gray-200 " : "bg-[#2b2a2a] text-white"
             } shadow-2xl rounded-lg z-50 text-xs text-gray-700`}
             onBlur={() => {
               setShowSuggestion(false);
@@ -283,7 +287,7 @@ const Header = () => {
         <i className="fa-solid fa-microphone text-lg"></i>
       </div> */}
 
-      <div className="flex  rounded-lg py-2 items-center gap-6 select-none">
+      <div className="flex  rounded-lg py-2 items-center gap-4 select-none">
         <div
           className="p-[6px] cursor-pointer border  rounded-full"
           title={`${(theme ? "Dark " : "Light ") + "mode"}`}

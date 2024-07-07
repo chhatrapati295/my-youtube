@@ -17,7 +17,7 @@ const SmallVideoCard = ({ data }) => {
           data?.snippet?.thumbnails?.high?.url
         }
         alt="video"
-        className="w-5/12 h-24 rounded-xl"
+        className="lg:w-5/12 lg:h-24 w-32 h-20 rounded-xl"
       />
       <div className="flex flex-col gap-1 w-7/12">
         <p className="text-wrap font-medium">

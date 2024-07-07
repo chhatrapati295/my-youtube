@@ -30,12 +30,9 @@ const VideoCard = ({ videoObj }) => {
   }
 
   const time = convertISO8601DurationToTime(videoObj?.contentDetails?.duration);
-  console.log(time); // Output: { hours: 0, minutes: 15, seconds: 23 }
-
-  // console.log(momObj);
   return (
     <div className=" flex flex-col gap-3 cursor-pointer">
-      <div className="w-full h-[208px] relative">
+      <div className="w-full min-[1200px]:max-w-[317px] min-[1200px]:max-h-[178.5px] h-[208px] relative">
         <img
           src={
             videoObj?.snippet?.thumbnails?.maxres?.url ??
@@ -55,7 +52,7 @@ const VideoCard = ({ videoObj }) => {
             videoObj?.snippet?.thumbnails?.high?.url
           }
           alt="image"
-          className="w-10 h-10 rounded-full object-cover"
+          className="md:w-10 md:h-10 w-8 h-8 rounded-full object-cover"
         />
         <div className="flex flex-col text-sm">
           <p
@@ -65,7 +62,11 @@ const VideoCard = ({ videoObj }) => {
           >
             {videoObj?.snippet?.localized?.title ?? videoObj?.snippet?.title}
           </p>
-          <div className="flex items-center  mt-1  text-gray-500">
+          <div
+            className={`flex items-center  mt-1 ${
+              theme ? "text-gray-500" : "text-gray-400"
+            }  `}
+          >
             <span className="">{videoObj?.snippet?.channelTitle}</span>
             {Number(videoObj?.statistics?.likeCount) > 2000 && (
               <svg
@@ -84,7 +85,11 @@ const VideoCard = ({ videoObj }) => {
               </svg>
             )}
           </div>
-          <div className="flex items-center gap-2  text-gray-500">
+          <div
+            className={`flex items-center gap-2 ${
+              theme ? "text-gray-500" : "text-gray-400"
+            }`}
+          >
             {videoObj?.statistics?.viewCount ? (
               <span className="">
                 {videoObj?.statistics?.viewCount > 1000000

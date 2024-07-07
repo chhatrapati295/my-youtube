@@ -7,8 +7,8 @@ import {
   videoPlayer_api,
 } from "../utils";
 import SmallVideoCard from "./SmallVideoCard";
-import { useQuery } from "@tanstack/react-query";
 import { useSelector } from "react-redux";
+import { Icon } from "@iconify/react/dist/iconify.js";
 
 const VideoPage = () => {
   const { id } = useParams();
@@ -98,11 +98,11 @@ const VideoPage = () => {
 
   return (
     <div
-      className={`md:px-0 px-4 md:pt-16 pt-16 video_page flex flex-col  md:flex-row items-start md:gap-8 gap-4  ${
+      className={`lg:px-0 px-4 md:pt-16 pt-16 video_page flex flex-col  lg:flex-row items-start md:gap-8 gap-4  ${
         theme ? "bg-white" : "bg-[#0f0f0f] text-white"
       } `}
     >
-      <div className="w-full md:w-[67%] md:pl-6 flex flex-col gap-4 md:h-full">
+      <div className="w-full lg:w-[67%] md:pl-6 flex flex-col gap-4 md:h-full">
         <iframe
           width="100%"
           // style={{ minHeight: "380px" }}
@@ -130,22 +130,25 @@ const VideoPage = () => {
                     className="h-10 w-10 rounded-full"
                   />
                   <div className="flex flex-col md:text-base text-sm">
-                    <span className="font-bold text-gray-500">
+                    <span className="font-bold ">
                       {item?.snippet?.channelTitle ?? item?.snippet.title}
                     </span>
-                    <span className="text-xs text-gray-500">
-                      {channelDetails?.statistics?.subscriberCount % 1000000 ===
-                      0
-                        ? (
-                            channelDetails?.statistics?.subscriberCount /
-                            1000000
-                          )?.toFixed(0)
-                        : (
-                            channelDetails?.statistics?.subscriberCount /
-                            1000000
-                          )?.toFixed(1)}
-                      M subscribers
-                    </span>
+                    {channelDetails?.statistics?.subscriberCount && (
+                      <span className="text-xs text-gray-500">
+                        {channelDetails?.statistics?.subscriberCount %
+                          1000000 ===
+                        0
+                          ? (
+                              channelDetails?.statistics?.subscriberCount /
+                              1000000
+                            )?.toFixed(0)
+                          : (
+                              channelDetails?.statistics?.subscriberCount /
+                              1000000
+                            )?.toFixed(1)}
+                        M subscribers
+                      </span>
+                    )}
                   </div>
                   <button
                     className={`py-2 px-6 md:text-sm text-xs font-[400] rounded-full ${
@@ -167,14 +170,35 @@ const VideoPage = () => {
                     )}
                   </button>
                 </div>
+                <div
+                  className={`flex gap-3 items-center  ${
+                    theme ? "text-black bg-gray-100" : "bg-gray-800 text-white"
+                  }  rounded-full py-2 px-4`}
+                >
+                  <div className="flex items-center gap-2">
+                    <Icon
+                      icon="mdi:like"
+                      width="1.2em"
+                      height="1.2em"
+                      style={{ color: theme ? "black" : "white" }}
+                    />
+                    <span className="text-sm">238k</span>
+                    <div className="border-[0.3px] border-gray-400 h-6 "></div>
+                    <Icon
+                      icon="iconamoon:dislike-thin"
+                      width="1.2em"
+                      height="1.2em"
+                    />
+                  </div>
+                </div>
               </div>
             </div>
           );
         })}
       </div>
-      <div className="w-full md:w-[30%] flex md:gap-0 flex-col gap-4 h-full overflow-y-scroll ">
+      <div className="w-full lg:w-[30%] flex lg:gap-0 flex-col gap-4 h-full overflow-y-scroll ">
         {categoryItems && (
-          <div className="flex items-center">
+          <div className="flex items-center pb-2">
             <div
               className="overflow-x-scroll hide_scroll flex gap-3"
               ref={containerRef}

@@ -21,12 +21,14 @@ body {
 }
 @media (min-width: 768px) {
   .popular_page {
-    width: calc(100vw - 80px);
+    /* width: calc(100vw - 80px); */
+    width: 100%;
   }
 }
 @media (max-width: 768px) {
   .popular_page {
-    width: 95%;
+    width: 100%;
+    padding: 0 1rem;
   }
 }
 .video_page {
@@ -35,4 +37,8 @@ body {
 
 .search_btn:active i {
   transform: scale(1.2);
+}
+.sidebar_container {
+  top: -57.5px;
+  height: calc(100vh + 57.5px);
 }

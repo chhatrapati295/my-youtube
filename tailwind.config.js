@@ -6,7 +6,14 @@ export default {
       screens: {
         "3xl": "1800px",
       },
+      colors: {
+        primary: {
+          light: "#fff",
+          dark: "#0f0f0f",
+          gray: "#dbdbdb",
+        },
+      },
     },
   },
   plugins: [],
-}
+};
