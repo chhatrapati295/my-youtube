@@ -21,3 +21,7 @@ export const search_suggestion_api = `https://www.googleapis.com/youtube/v3/sear
 `;
 
 export const search_video_api = `https://www.googleapis.com/youtube/v3/search?key=${API_KEY}&type=video&part=snippet&maxResults=48&q=`;
+
+export const video_info_api = `https://youtube.googleapis.com/youtube/v3/videos?part=snippet%2CcontentDetails%2Cstatistics&key=${API_KEY}&id=`;
+
+export const channle_info_api = `https://youtube.googleapis.com/youtube/v3/channels?part=snippet%2CcontentDetails%2Cstatistics&key=${API_KEY}&id=`;

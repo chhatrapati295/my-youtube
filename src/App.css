@@ -42,3 +42,12 @@ body {
   top: -57.5px;
   height: calc(100vh + 57.5px);
 }
+
+.truncate-multiline {
+  display: -webkit-box;
+  -webkit-line-clamp: 3; /* Number of lines to show */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-height: 120px; /* Adjust according to your needs */
+}

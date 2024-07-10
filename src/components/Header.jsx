@@ -204,12 +204,12 @@ const Header = () => {
           </Link>
         )}
       </div>
-      <Icon
-        icon="logos:youtube-icon"
-        className="md:hidden w-9 h-9 rounded-2xl"
-        // width="1.2em"
-        // height="1.2em"
-      />
+      <Link to={"/"}>
+        <Icon
+          icon="logos:youtube-icon"
+          className="md:hidden w-9 h-9 rounded-2xl"
+        />
+      </Link>
 
       <form
         ref={searchRef}

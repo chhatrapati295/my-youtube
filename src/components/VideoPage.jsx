@@ -2,22 +2,27 @@ import { useEffect, useRef, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import {
   CHANNLE_DATA_API,
+  channle_info_api,
   VIDEO_DETAILS_API,
+  video_info_api,
   videoCategory_api,
   videoPlayer_api,
 } from "../utils";
 import SmallVideoCard from "./SmallVideoCard";
 import { useSelector } from "react-redux";
 import { Icon } from "@iconify/react/dist/iconify.js";
+import { formatDistanceToNow } from "date-fns";
 
 const VideoPage = () => {
   const { id } = useParams();
+  const [videoInfo, setVideoInfo] = useState({});
   const [categoryItems, setCategoryItems] = useState(null);
   const [suggestData, setSuggestData] = useState(null);
   const [categoryId, setCategoryId] = useState(1);
   const [videoDetails, setVideoDetails] = useState(null);
   const [channelDetails, setChannelDetails] = useState(null);
   const [channelId, setChannelId] = useState("");
+  const [viewFullDes, setViewFullDes] = useState(false);
   // eslint-disable-next-line no-unused-vars
   const [subscribe, setSubscribe] = useState("");
   const subscribeRef = useRef(false);
@@ -33,6 +38,10 @@ const VideoPage = () => {
   }, []);
 
   useEffect(() => {
+    getVideoInfo();
+  }, [id]);
+
+  useEffect(() => {
     getChannelData(channelId);
   }, [channelId, id]);
 
@@ -45,6 +54,18 @@ const VideoPage = () => {
       containerRef.current.scrollLeft = 0;
     }
   }, [categoryItems]);
+
+  const getVideoInfo = async () => {
+    try {
+      const apiUrl = await fetch(video_info_api + id);
+      const data = await apiUrl.json();
+      console.log(data);
+      setChannelId(data?.items && data?.items[0]?.snippet?.channelId);
+      setVideoInfo(data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const getCategories = async () => {
     try {
@@ -75,7 +96,7 @@ const VideoPage = () => {
         throw new Error("Failed to fetch video details");
       }
       const data = await url.json();
-      console.log(data);
+      // console.log(data);
       setVideoDetails(data?.items);
       setChannelId(data?.items && data?.items[0]?.snippet?.channelId);
     } catch (error) {
@@ -85,118 +106,163 @@ const VideoPage = () => {
 
   const getChannelData = async (channel) => {
     try {
-      const url = await fetch(CHANNLE_DATA_API + channel);
+      const url = await fetch(channle_info_api + channel);
       if (!url.ok) {
         throw new Error("Failed to fetch channel details");
       }
       const data = await url.json();
+      console.log(data);
       setChannelDetails(data?.items && data?.items[0]);
     } catch (error) {
       console.error("Error fetching channel details:", error);
     }
   };
 
+  const description =
+    videoInfo?.items?.[0]?.snippet?.localized?.description || "";
+  const descriptionLines = description.split("\n");
+  const publishedAtString = videoInfo?.items?.[0]?.snippet?.publishedAt;
+  let timeAgo = "";
+  if (publishedAtString) {
+    const publishedAt = new Date(publishedAtString);
+    timeAgo = formatDistanceToNow(publishedAt, { addSuffix: true });
+  }
+
   return (
     <div
-      className={`lg:px-0 px-4 md:pt-16 pt-16 video_page flex flex-col  lg:flex-row items-start md:gap-8 gap-4  ${
+      className={`lg:px-0 px-4 md:pt-16 pt-16  overflow-y-scroll flex flex-col  lg:flex-row items-start md:gap-8 gap-4 h-screen ${
         theme ? "bg-white" : "bg-[#0f0f0f] text-white"
       } `}
     >
-      <div className="w-full lg:w-[67%] md:pl-6 flex flex-col gap-4 md:h-full">
+      <div className="w-full  lg:w-[67%] md:pl-6 flex flex-col gap-4   ">
         <iframe
           width="100%"
           // style={{ minHeight: "380px" }}
-          className="rounded-xl md:h-[70%] h-[200px]"
+          className="rounded-xl md:h-[65vh] h-[200px]"
           src={`https://www.youtube.com/embed/${id}?autoplay=1&si=ChLSfIsfR848SCc6`}
           title="YouTube video player"
           frameBorder="0"
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
           allowFullScreen
         ></iframe>
-        {videoDetails?.map((item, i) => {
-          return (
-            <div className="flex flex-col gap-4" key={i}>
-              <h3 className="font-bold md:text-xl text-base">
-                {videoDetails[0]?.snippet?.title}
-              </h3>
-              <div className="flex justify-between items-center">
-                <div className="flex gap-4 items-center whitespace-nowrap">
-                  <img
-                    src={
-                      channelDetails?.snippet?.thumbnails?.high?.url ??
-                      "https://img.freepik.com/free-vector/illustration-businessman_53876-5856.jpg?w=740&t=st=1710611958~exp=1710612558~hmac=482083950f742fec41e69c51ab7e7bdaac4b5119dad82c2d9bc782a8037a3032"
-                    }
-                    alt="Img"
-                    className="h-10 w-10 rounded-full"
-                  />
-                  <div className="flex flex-col md:text-base text-sm">
-                    <span className="font-bold ">
-                      {item?.snippet?.channelTitle ?? item?.snippet.title}
-                    </span>
-                    {channelDetails?.statistics?.subscriberCount && (
-                      <span className="text-xs text-gray-500">
-                        {channelDetails?.statistics?.subscriberCount %
-                          1000000 ===
-                        0
-                          ? (
-                              channelDetails?.statistics?.subscriberCount /
-                              1000000
-                            )?.toFixed(0)
-                          : (
-                              channelDetails?.statistics?.subscriberCount /
-                              1000000
-                            )?.toFixed(1)}
-                        M subscribers
-                      </span>
-                    )}
-                  </div>
-                  <button
-                    className={`py-2 px-6 md:text-sm text-xs font-[400] rounded-full ${
-                      subscribeRef.current
-                        ? "bg-gray-300 text-black"
-                        : "bg-gray-800 text-white"
-                    }`}
-                    onClick={() => {
-                      subscribeRef.current = !subscribeRef.current;
-                      setSubscribe(subscribeRef.current ? "Subscribed" : "");
-                    }}
-                  >
-                    {subscribeRef.current ? (
-                      <span className="flex gap-2 items-center">
-                        <i className="fa-regular fa-bell"></i>Subscribed
-                      </span>
-                    ) : (
-                      "Subscribe"
-                    )}
-                  </button>
-                </div>
-                <div
-                  className={`hidden md:flex gap-3 items-center  ${
-                    theme ? "text-black bg-gray-100" : "bg-gray-800 text-white"
-                  }  rounded-full py-2 px-4`}
-                >
-                  <div className="flex items-center gap-2">
-                    <Icon
-                      icon="mdi:like"
-                      width="1.2em"
-                      height="1.2em"
-                      style={{ color: theme ? "black" : "white" }}
-                    />
-                    <span className="text-sm">238k</span>
-                    <div className="border-[0.3px] border-gray-400 h-6 "></div>
-                    <Icon
-                      icon="iconamoon:dislike-thin"
-                      width="1.2em"
-                      height="1.2em"
-                    />
-                  </div>
-                </div>
+        <div className="flex flex-col gap-4">
+          <h3 className="font-bold md:text-xl text-base">
+            {videoInfo?.items && videoInfo?.items[0]?.snippet?.localized?.title}
+          </h3>
+          <div className="flex justify-between items-center">
+            <div className="flex gap-4 items-center whitespace-nowrap">
+              <img
+                src={
+                  channelDetails?.snippet?.thumbnails?.high?.url ??
+                  "https://img.freepik.com/free-vector/illustration-businessman_53876-5856.jpg?w=740&t=st=1710611958~exp=1710612558~hmac=482083950f742fec41e69c51ab7e7bdaac4b5119dad82c2d9bc782a8037a3032"
+                }
+                alt="Img"
+                className="h-10 w-10 rounded-full"
+              />
+              <div className="flex flex-col md:text-base text-sm">
+                <span className="font-bold ">
+                  {videoInfo?.items &&
+                    videoInfo?.items[0]?.snippet?.channelTitle}
+                </span>
+                {channelDetails?.statistics?.subscriberCount && (
+                  <span className="text-xs text-gray-500">
+                    {channelDetails?.statistics?.subscriberCount % 1000000 === 0
+                      ? (
+                          channelDetails?.statistics?.subscriberCount / 1000000
+                        )?.toFixed(0)
+                      : (
+                          channelDetails?.statistics?.subscriberCount / 1000000
+                        )?.toFixed(1)}
+                    M subscribers
+                  </span>
+                )}
+              </div>
+              <button
+                className={`py-2 px-6 md:text-sm text-xs font-[400] rounded-full ${
+                  subscribeRef.current
+                    ? "bg-gray-300 text-black"
+                    : "bg-gray-800 text-white"
+                }`}
+                onClick={() => {
+                  subscribeRef.current = !subscribeRef.current;
+                  setSubscribe(subscribeRef.current ? "Subscribed" : "");
+                }}
+              >
+                {subscribeRef.current ? (
+                  <span className="flex gap-2 items-center">
+                    <i className="fa-regular fa-bell"></i>Subscribed
+                  </span>
+                ) : (
+                  "Subscribe"
+                )}
+              </button>
+            </div>
+            <div
+              className={`hidden md:flex gap-3 items-center  ${
+                theme ? "text-black bg-gray-100" : "bg-gray-800 text-white"
+              }  rounded-full py-2 px-4`}
+            >
+              <div className="flex items-center gap-2">
+                <Icon
+                  icon="mdi:like"
+                  width="1.2em"
+                  height="1.2em"
+                  style={{ color: theme ? "black" : "white" }}
+                />
+                <span className="text-sm">
+                  {videoInfo?.items &&
+                    (
+                      videoInfo?.items[0]?.statistics?.likeCount / 1000
+                    )?.toFixed(1) + "k"}
+                </span>
+                <div className="border-[0.3px] border-gray-400 h-6 "></div>
+                <Icon
+                  icon="iconamoon:dislike-thin"
+                  width="1.2em"
+                  height="1.2em"
+                />
               </div>
             </div>
-          );
-        })}
+          </div>
+        </div>
+        <div
+          className={`${
+            theme ? "bg-gray-100 text-gray-600" : "bg-gray-800 text-gray-300"
+          }   h-auto overflow-y-scroll text-sm p-4 rounded-2xl `}
+        >
+          <div className="flex gap-2 items-center">
+            <span className="text-sm font-medium">
+              {videoInfo?.items &&
+                (videoInfo?.items[0]?.statistics?.viewCount / 1000)?.toFixed(
+                  1
+                ) + "k views"}
+            </span>
+            <span className="text-sm font-medium">{timeAgo}</span>
+          </div>
+          {description && (
+            <div className="flex flex-col mt-2">
+              {!viewFullDes
+                ? description.split("\n")[0]
+                : descriptionLines.map((line, index) => (
+                    <p key={index}>{line}</p>
+                  ))}
+            </div>
+          )}
+          {description && (
+            <p
+              className="mt-1 font-bold cursor-pointer"
+              onClick={() => setViewFullDes(!viewFullDes)}
+            >
+              {!viewFullDes ? " ... more" : "Show less"}
+            </p>
+          )}
+        </div>
+        <div className="font-medium md:text-base text-sm">
+          {videoInfo?.items &&
+            videoInfo?.items[0]?.statistics?.commentCount + " Comments"}
+        </div>
       </div>
-      <div className="w-full lg:w-[30%] flex lg:gap-0 flex-col gap-4 h-full overflow-y-scroll ">
+      <div className="w-full lg:w-[30%] flex lg:gap-0 flex-col gap-4  ">
         {categoryItems && (
           <div className="flex items-center pb-2">
             <div
