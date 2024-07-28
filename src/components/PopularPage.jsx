@@ -183,7 +183,7 @@ const PopularPage = () => {
       </div>
       {!load && popularData ? (
         <div
-          className={`grid overflow-y-scroll grid-cols-1 md:grid-cols-2 lg:grid-cols-3 min-[1200px]:grid-cols-4 2xl:grid-cols-4 3xl:grid-cols-5 gap-x-12 gap-y-8 md:px-6 ${
+          className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 min-[1200px]:grid-cols-4 2xl:grid-cols-4 3xl:grid-cols-5 gap-x-12 gap-y-8 md:px-6 ${
             !load && popularData && "pb-8"
           }  video_container 2xl:w-12/12`}
         >
