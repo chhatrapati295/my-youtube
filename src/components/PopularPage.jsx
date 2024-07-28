@@ -185,7 +185,7 @@ const PopularPage = () => {
         <div
           className={`grid overflow-y-scroll grid-cols-1 md:grid-cols-2 lg:grid-cols-3 min-[1200px]:grid-cols-4 2xl:grid-cols-4 3xl:grid-cols-5 gap-x-12 gap-y-8 md:px-6 ${
             !load && popularData && "pb-8"
-          }  video_container 2xl:w-11/12 3xl:w-10/12`}
+          }  video_container 2xl:w-12/12`}
         >
           {popularData?.items?.map((videoObj, i) => (
             <Link
@@ -201,7 +201,19 @@ const PopularPage = () => {
           ))}
         </div>
       ) : (
-        <div className="grid overflow-y-scroll grid-cols-1 md:grid-cols-2 lg:grid-cols-3 min-[1200px]:grid-cols-4 2xl:grid-cols-4 3xl:grid-cols-5 gap-x-12 gap-y-8 md:px-6 pb-8 video_container 2xl:w-11/12 3xl:w-8/12 ">
+        <div className="grid overflow-y-scroll grid-cols-1 md:grid-cols-2 lg:grid-cols-3 min-[1200px]:grid-cols-4 2xl:grid-cols-4 3xl:grid-cols-5 gap-x-12 gap-y-8 md:px-6 pb-8 video_container 2xl:w-12/12 ">
+          <VideoCardSkeleton />
+          <VideoCardSkeleton />
+          <VideoCardSkeleton />
+          <VideoCardSkeleton />
+          <VideoCardSkeleton />
+          <VideoCardSkeleton />
+          <VideoCardSkeleton />
+          <VideoCardSkeleton />
+          <VideoCardSkeleton />
+          <VideoCardSkeleton />
+          <VideoCardSkeleton />
+          <VideoCardSkeleton />
           <VideoCardSkeleton />
           <VideoCardSkeleton />
           <VideoCardSkeleton />

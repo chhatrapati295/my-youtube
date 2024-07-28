@@ -8,7 +8,7 @@ const VideoCardSkeleton = () => {
       <Skeleton
         baseColor={!theme && "#414040"}
         highlightColor={!theme && "#666666"}
-        className="w-full md:max-w-[317px] md:max-h-[178.5px] h-[210px] rounded-xl"
+        className="w-full  md:w-full md:max-h-[170px] h-[190px] rounded-xl"
       />
       <Skeleton
         baseColor={!theme && "#414040"}

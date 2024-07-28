@@ -32,13 +32,13 @@ const VideoCard = ({ videoObj }) => {
   const time = convertISO8601DurationToTime(videoObj?.contentDetails?.duration);
   return (
     <div className=" flex flex-col gap-3 cursor-pointer">
-      <div className="w-full min-[1200px]:max-w-[317px] min-[1200px]:max-h-[178.5px] h-[208px] relative">
+      <div className="w-full  min-[1200px]:flex-1 min-[1200px] md:max-h-[178.5px] h-auto relative">  
         <img
           src={
             videoObj?.snippet?.thumbnails?.maxres?.url ??
             videoObj?.snippet?.thumbnails?.high?.url
           }
-          className="w-full h-full rounded-xl hover:rounded-none transition-all duration-200 ease-in-out"
+          className="w-full h-full md:max-h-[178px] rounded-xl hover:rounded-none transition-all duration-200 ease-in-out"
           alt=""
         />
         <span className="absolute bottom-2 right-2 bg-black text-white text-[0.7rem] font-semibold py-[2px] px-1 rounded-md">
@@ -67,7 +67,7 @@ const VideoCard = ({ videoObj }) => {
               theme ? "text-gray-500" : "text-gray-400"
             }  `}
           >
-            <span className="">{videoObj?.snippet?.channelTitle}</span>
+            <span className="text-xs md:text-sm font-medium md:font-normal">{videoObj?.snippet?.channelTitle}</span>
             {Number(videoObj?.statistics?.likeCount) > 2000 && (
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -86,7 +86,7 @@ const VideoCard = ({ videoObj }) => {
             )}
           </div>
           <div
-            className={`flex items-center gap-2 ${
+            className={`flex items-center gap-2 text-xs md:text-sm ${
               theme ? "text-gray-500" : "text-gray-400"
             }`}
           >

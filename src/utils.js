@@ -1,5 +1,5 @@
-export const API_KEY2 = "AIzaSyD3_8qgZRimxv0jXBr3JvMuSreRhhcPD4Q";
-export const API_KEY = "AIzaSyC0oR7YZsCRBjHVQXAlFSZ0Jgy1TRSC8cQ";
+export const API_KEY = "AIzaSyD3_8qgZRimxv0jXBr3JvMuSreRhhcPD4Q";
+export const API_KEY2 = "AIzaSyC0oR7YZsCRBjHVQXAlFSZ0Jgy1TRSC8cQ";
 export const API_KEY3 = "AIzaSyCX55kqbiFuiohqzwCsHVmuKgrvt--5juo";
 export const POPULAR_VIDEO_API = `https://youtube.googleapis.com/youtube/v3/videos?part=snippet%2CcontentDetails%2Cstatistics&chart=mostPopular&maxResults=48&regionCode=IN&key=${API_KEY}`;
 export const HOMEPAGE_API = `
@@ -25,3 +25,10 @@ export const search_video_api = `https://www.googleapis.com/youtube/v3/search?ke
 export const video_info_api = `https://youtube.googleapis.com/youtube/v3/videos?part=snippet%2CcontentDetails%2Cstatistics&key=${API_KEY}&id=`;
 
 export const channle_info_api = `https://youtube.googleapis.com/youtube/v3/channels?part=snippet%2CcontentDetails%2Cstatistics&key=${API_KEY}&id=`;
+
+export const video_comments_api = `https://www.googleapis.com/youtube/v3/commentThreads?part=snippet&order=relevance&key=${API_KEY}&maxResults=50&videoId=`;
+
+export const suggested_video_api = `https://www.googleapis.com/youtube/v3/search?part=snippet&key=${API_KEY}&type=video&relatedToVideoId=`;
+
+
+// https://www.googleapis.com/youtube/v3/search?part=snippet&relatedToVideoId=5rOiW_xY-kc&type=video&key={YOUR_API_KEY}
