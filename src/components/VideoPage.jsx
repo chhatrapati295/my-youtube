@@ -254,7 +254,7 @@ const VideoPage = () => {
         <div
           className={`${
             theme ? "bg-gray-100 text-gray-600" : "bg-gray-800 text-gray-300"
-          }   h-auto overflow-y-scroll text-sm p-4 rounded-2xl `}
+          }   h-auto text-sm p-4 rounded-2xl `}
         >
           <div className="flex gap-2 items-center">
             <span className="text-sm font-medium">
