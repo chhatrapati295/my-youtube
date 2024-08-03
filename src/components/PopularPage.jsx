@@ -1,5 +1,4 @@
-import { useEffect, useRef } from "react";
-import { useState } from "react";
+import { lazy, Suspense, useEffect, useRef, useState } from "react";
 import "react-loading-skeleton/dist/skeleton.css";
 import {
   POPULAR_VIDEO_API,
@@ -7,15 +6,15 @@ import {
   videoCategory_api,
   videoPlayer_api,
 } from "../utils";
-import VideoCard from "./VideoCard";
 import { Link } from "react-router-dom";
 import plant from "../assets/plant.gif";
 import { useSelector } from "react-redux";
 import { ToastContainer } from "react-toastify";
-import Skeleton from "react-loading-skeleton";
 import VideoCardSkeleton from "./VideoCardSkeleton";
 import CategorySkeleton from "./CategorySkeleton";
 import { Icon } from "@iconify/react/dist/iconify.js";
+
+const VideoCard = lazy(() => import("./VideoCard"));
 
 const PopularPage = () => {
   const searchSliceData = useSelector((state) => state.searchQuery);
@@ -182,24 +181,26 @@ const PopularPage = () => {
         )}
       </div>
       {!load && popularData ? (
-        <div
-          className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 min-[1200px]:grid-cols-4 2xl:grid-cols-4 3xl:grid-cols-5 gap-x-12 gap-y-8 md:px-6 ${
-            !load && popularData && "pb-8"
-          }  video_container 2xl:w-12/12`}
-        >
-          {popularData?.items?.map((videoObj, i) => (
-            <Link
-              to={
-                videoObj?.id?.videoId
-                  ? `watch/` + videoObj?.id?.videoId
-                  : `watch/` + videoObj?.id
-              }
-              key={i}
-            >
-              <VideoCard videoObj={videoObj} />
-            </Link>
-          ))}
-        </div>
+        <Suspense fallback={<VideoCardSkeleton />}>
+          <div
+            className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 min-[1200px]:grid-cols-4 2xl:grid-cols-4 3xl:grid-cols-5 gap-x-12 gap-y-8 md:px-6 ${
+              !load && popularData && "pb-8"
+            }  video_container 2xl:w-12/12`}
+          >
+            {popularData?.items?.map((videoObj, i) => (
+              <Link
+                to={
+                  videoObj?.id?.videoId
+                    ? `watch/` + videoObj?.id?.videoId
+                    : `watch/` + videoObj?.id
+                }
+                key={i}
+              >
+                <VideoCard videoObj={videoObj} />
+              </Link>
+            ))}
+          </div>
+        </Suspense>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 min-[1200px]:grid-cols-4 2xl:grid-cols-4 3xl:grid-cols-5 gap-x-12 gap-y-8 md:px-6 pb-8 video_container 2xl:w-12/12 ">
           <VideoCardSkeleton />
