@@ -27,8 +27,3 @@ export const video_info_api = `https://youtube.googleapis.com/youtube/v3/videos?
 export const channle_info_api = `https://youtube.googleapis.com/youtube/v3/channels?part=snippet%2CcontentDetails%2Cstatistics&key=${API_KEY}&id=`;
 
 export const video_comments_api = `https://www.googleapis.com/youtube/v3/commentThreads?part=snippet&order=relevance&key=${API_KEY}&maxResults=50&videoId=`;
-
-export const suggested_video_api = `https://www.googleapis.com/youtube/v3/search?part=snippet&key=${API_KEY}&type=video&relatedToVideoId=`;
-
-
-// https://www.googleapis.com/youtube/v3/search?part=snippet&relatedToVideoId=5rOiW_xY-kc&type=video&key={YOUR_API_KEY}

@@ -1,15 +1,12 @@
+/* eslint-disable no-unused-vars */
 import { useEffect, useRef, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import {
-  API_KEY,
-  CHANNLE_DATA_API,
   channle_info_api,
-  suggested_video_api,
   video_comments_api,
   VIDEO_DETAILS_API,
   video_info_api,
   videoCategory_api,
-  videoPlayer_api,
 } from "../utils";
 import SmallVideoCard from "./SmallVideoCard";
 import { useSelector } from "react-redux";
@@ -18,6 +15,7 @@ import { formatDistanceToNow } from "date-fns";
 
 const VideoPage = () => {
   const { id } = useParams();
+  console.log(id);
   const [videoInfo, setVideoInfo] = useState({});
   const [categoryItems, setCategoryItems] = useState(null);
   const [suggestData, setSuggestData] = useState(null);
@@ -27,7 +25,6 @@ const VideoPage = () => {
   const [channelDetails, setChannelDetails] = useState(null);
   const [channelId, setChannelId] = useState("");
   const [viewFullDes, setViewFullDes] = useState(false);
-  const [showSingleComment, setShowSingleComment] = useState(true);
 
   // eslint-disable-next-line no-unused-vars
   const [subscribe, setSubscribe] = useState("");
@@ -55,7 +52,7 @@ const VideoPage = () => {
 
   useEffect(() => {
     getCategoryVideoData(categoryId);
-  }, [categoryId]);
+  }, [categoryId, id]);
 
   useEffect(() => {
     if (containerRef.current) {
@@ -95,18 +92,19 @@ const VideoPage = () => {
     }
   };
 
-  const getCategoryVideoData = async (id) => {
-    const url = await fetch(videoPlayer_api + id);
-    const data = await url.json();
-    setSuggestData(data?.items);
-  };
-  const getSuggestedVideoData = async (id) => {
-    const url = await fetch(
-      `https://www.googleapis.com/youtube/v3/search?part=snippet&relatedToVideoId=${id}&type=video&key=${API_KEY}`
-    );
-    const data = await url.json();
-    console.log("data", data);
-    setSuggestData(data?.items);
+  const getCategoryVideoData = async () => {
+    const url = `https://yt-api.p.rapidapi.com/related?id=${id}`;
+    const options = {
+      method: "GET",
+      headers: {
+        "x-rapidapi-key": "18cdd167a5msh930c52ff68bacddp137a57jsnd08bf6760317",
+        "x-rapidapi-host": "yt-api.p.rapidapi.com",
+      },
+    };
+    const urlData = await fetch(url, options);
+    const data = await urlData.json();
+    console.log(data, "hello");
+    setSuggestData(data?.data);
   };
 
   const handleScrollRight = () => {
@@ -164,7 +162,7 @@ const VideoPage = () => {
         <iframe
           width="100%"
           // style={{ minHeight: "380px" }}
-          className="rounded-xl md:h-[65vh] h-[200px]"
+          className="rounded-xl md:h-[65vh] sm:h-[400px] h-[230px]"
           src={`https://www.youtube.com/embed/${id}?autoplay=1&si=ChLSfIsfR848SCc6`}
           title="YouTube video player"
           frameBorder="0"
@@ -192,14 +190,25 @@ const VideoPage = () => {
                 </span>
                 {channelDetails?.statistics?.subscriberCount && (
                   <span className="text-xs text-gray-500">
-                    {channelDetails?.statistics?.subscriberCount % 1000000 === 0
-                      ? (
-                          channelDetails?.statistics?.subscriberCount / 1000000
-                        )?.toFixed(0)
-                      : (
-                          channelDetails?.statistics?.subscriberCount / 1000000
-                        )?.toFixed(1)}
-                    M subscribers
+                    {channelDetails?.statistics?.subscriberCount <= 1000
+                      ? channelDetails?.statistics?.subscriberCount +
+                        " subscribers"
+                      : channelDetails?.statistics?.subscriberCount > 1000 &&
+                        channelDetails?.statistics?.subscriberCount < 1000000
+                      ? channelDetails?.statistics?.subscriberCount / 1000 +
+                        "k subscribers"
+                      : channelDetails?.statistics?.subscriberCount >= 1000000
+                      ? channelDetails?.statistics?.subscriberCount %
+                          1000000 ===
+                        0
+                        ? channelDetails?.statistics?.subscriberCount /
+                            1000000 +
+                          "M subscribers"
+                        : (
+                            channelDetails?.statistics?.subscriberCount /
+                            1000000
+                          )?.toFixed(1) + "M subscribers"
+                      : ""}
                   </span>
                 )}
               </div>
@@ -259,10 +268,22 @@ const VideoPage = () => {
           <div className="flex gap-2 items-center">
             <span className="text-sm font-medium">
               {videoInfo?.items &&
-                (videoInfo?.items[0]?.statistics?.viewCount / 1000)?.toFixed(
-                  1
-                ) + "k views"}
+                (videoInfo?.items[0]?.statistics?.viewCount <= 1000
+                  ? videoInfo?.items[0]?.statistics?.viewCount + " views"
+                  : videoInfo?.items[0]?.statistics?.viewCount > 1000 &&
+                    videoInfo?.items[0]?.statistics?.viewCount < 1000000
+                  ? videoInfo?.items[0]?.statistics?.viewCount / 1000 +
+                    "k views"
+                  : videoInfo?.items[0]?.statistics?.viewCount >= 1000000
+                  ? videoInfo?.items[0]?.statistics?.viewCount % 1000000 === 0
+                    ? videoInfo?.items[0]?.statistics?.viewCount / 1000000 +
+                      "M views"
+                    : (
+                        videoInfo?.items[0]?.statistics?.viewCount / 1000000
+                      )?.toFixed(1) + "M views"
+                  : "")}
             </span>
+
             <span className="text-sm font-medium">{timeAgo}</span>
           </div>
           {description && (
@@ -291,9 +312,20 @@ const VideoPage = () => {
         >
           <div className="font-bold md:text-xl text-sm mb-4">
             {videoInfo?.items &&
-              (videoInfo?.items[0]?.statistics?.commentCount / 1000)?.toFixed(
-                1
-              ) + "k Comments"}
+              (videoInfo?.items[0]?.statistics?.commentCount <= 1000
+                ? videoInfo?.items[0]?.statistics?.commentCount + " Comments"
+                : videoInfo?.items[0]?.statistics?.commentCount > 1000 &&
+                  videoInfo?.items[0]?.statistics?.commentCount < 1000000
+                ? videoInfo?.items[0]?.statistics?.commentCount / 1000 +
+                  "k Comments"
+                : videoInfo?.items[0]?.statistics?.commentCount >= 1000000
+                ? videoInfo?.items[0]?.statistics?.commentCount % 1000000 === 0
+                  ? videoInfo?.items[0]?.statistics?.commentCount / 1000000 +
+                    "M Comments"
+                  : (
+                      videoInfo?.items[0]?.statistics?.commentCount / 1000000
+                    )?.toFixed(1) + "M Comments"
+                : "")}
           </div>
           {videoComments?.map((comment) => {
             return (
@@ -391,9 +423,9 @@ const VideoPage = () => {
             return (
               <Link
                 className="pr-4"
-                to={`/watch/${item?.id}`}
+                to={`/watch/${item?.videoId}`}
                 key={i}
-                onClick={() => getChannelData(item?.snippet?.channelId)}
+                onClick={() => getChannelData(item?.videoId)}
               >
                 <SmallVideoCard data={item} />
               </Link>
