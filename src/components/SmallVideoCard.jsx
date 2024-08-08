@@ -1,8 +1,10 @@
 import { Icon } from "@iconify/react/dist/iconify.js";
 import PropTypes from "prop-types";
+import { useSelector } from "react-redux";
 // import { formatDistanceToNow } from "date-fns";
 
 const SmallVideoCard = ({ data }) => {
+  const theme = useSelector((state) => state.theme.dark);
   if (!data) {
     return;
   }
@@ -23,24 +25,16 @@ const SmallVideoCard = ({ data }) => {
             ? data?.title?.slice(0, 100) + "... "
             : data?.title}
         </p>
-        <div className="flex items-center font-medium text-gray-500">
+        <div className="flex items-center gap-1 font-medium text-gray-500">
           <span>{data?.channelTitle} </span>
           {data?.snippet?.liveBroadcastContent !== "live" &&
             data?.type === "video" && (
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                height="24"
-                viewBox="0 0 24 24"
-                width="24"
-                focusable="false"
-                style={{
-                  pointerEvents: "none",
-                  display: "block",
-                  height: "0.8rem",
-                }}
-              >
-                <path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2zM9.8 17.3l-4.2-4.1L7 11.8l2.8 2.7L17 7.4l1.4 1.4-8.6 8.5z"></path>
-              </svg>
+              <Icon
+                icon="mdi:tick-circle"
+                width="1em"
+                height="1em"
+                style={{ color: !theme ? "gray" : "black" }}
+              />
             )}
         </div>
         {data?.type === "video" && (
