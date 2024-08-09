@@ -8,7 +8,7 @@ const CategorySkeleton = () => {
     <Skeleton
       baseColor={!theme && "#414040"}
       highlightColor={!theme && "#666666"}
-      width={100}
+      width={137}
       className=" py-[8px] px-4  rounded-md"
     />
   );

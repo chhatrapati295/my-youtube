@@ -154,7 +154,7 @@ const VideoPage = () => {
 
   return (
     <div
-      className={`lg:px-0 px-4 md:pt-16 pt-16  overflow-y-scroll flex flex-col  lg:flex-row items-start md:gap-8 gap-4 h-screen ${
+      className={`lg:px-0 px-4 md:pt-16 pt-16  flex flex-col  lg:flex-row items-start md:gap-8 gap-4 min-h-screen ${
         theme ? "bg-white" : "bg-[#0f0f0f] text-white"
       } `}
     >

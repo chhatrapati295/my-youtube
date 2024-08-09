@@ -16,6 +16,9 @@ body {
 /* .body_css{
     height: calc(100vh - 3px);
 } */
+.error_page_screen {
+  height: calc(100vh - 150px);
+}
 .hide_scroll::-webkit-scrollbar {
   display: none;
 }

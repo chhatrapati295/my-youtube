@@ -107,7 +107,7 @@ const PopularPage = () => {
 
   return (
     <div
-      className={`h-full m-auto overflow-y-scroll md:m-0 popular_page ${
+      className={`h-full m-auto md:m-0 popular_page ${
         theme ? "bg-white" : "bg-[#0f0f0f]"
       } `}
     >
@@ -124,7 +124,11 @@ const PopularPage = () => {
         theme="dark"
         transition:Bounce
       />
-      <div className="flex items-center md:px-6 gap-3 w-full md:pb-4 pb-3 md:pt-3 py-1">
+      <div
+        className={`flex fixed z-40 top-[57.2px] items-center md:px-6 gap-3 w-full md:pb-4 pb-3 md:pt-3 py-1 ${
+          theme ? "bg-white" : "bg-[#0f0f0f]"
+        } `}
+      >
         <div
           className="flex gap-3 items-center overflow-x-scroll hide_scroll"
           ref={containerRef}
@@ -182,8 +186,8 @@ const PopularPage = () => {
       </div>
       {!load && popularData ? (
         <div
-          className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 min-[1200px]:grid-cols-4 2xl:grid-cols-4 3xl:grid-cols-5 gap-x-12 gap-y-8 md:px-6 ${
-            !load && popularData && "pb-8"
+          className={`mt-[62px] grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 min-[1200px]:grid-cols-4 2xl:grid-cols-4 3xl:grid-cols-5 gap-x-12 gap-y-8 md:px-6 ${
+            !load && popularData && "mb-8"
           }  video_container 2xl:w-12/12`}
         >
           {popularData?.items?.map((videoObj, i) => (
@@ -200,7 +204,7 @@ const PopularPage = () => {
           ))}
         </div>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 min-[1200px]:grid-cols-4 2xl:grid-cols-4 3xl:grid-cols-5 gap-x-12 gap-y-8 md:px-6 pb-8 video_container 2xl:w-12/12 ">
+        <div className="mt-[62px] grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 min-[1200px]:grid-cols-4 2xl:grid-cols-4 3xl:grid-cols-5 gap-x-12 gap-y-8 md:px-6 pb-8 video_container 2xl:w-12/12 ">
           <VideoCardSkeleton />
           <VideoCardSkeleton />
           <VideoCardSkeleton />
@@ -237,7 +241,7 @@ const PopularPage = () => {
         </div>
       )} */}
       {!popularData?.items && !load && (
-        <div className="h-5/6 flex flex-col gap-1 text-sm justify-center items-center">
+        <div className="error_page_screen flex flex-col gap-1 text-sm justify-center items-center">
           <img src={plant} className="w-20 h-24 mb-4" alt="plant img" />
           <span>
             You&apos;ve hit your daily limit. Please try again tomorrow.

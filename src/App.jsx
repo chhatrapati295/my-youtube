@@ -10,7 +10,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 function App() {
   const queryClient = new QueryClient();
   return (
-    <div className={`flex flex-col w-screen h-screen body_css`}>
+    <div className={`flex flex-col w-screen min-h-screen body_css`}>
       <Provider store={store}>
         <QueryClientProvider client={queryClient}>
           <Router>
