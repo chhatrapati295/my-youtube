@@ -195,7 +195,7 @@ const Header = () => {
           theme
             ? "bg-gray-50 border-gray-300"
             : "bg-[#FFFFFF1A] text-gray-300 border-gray-700"
-        }  md:flex-shrink-0 w-[70%] md:text-lg  md:w-[45%] md:relative header_search border `}
+        }  md:flex-shrink-0 w-[70%] md:text-lg  md:w-[45%] relative header_search border `}
         onFocus={() => setShowSuggestion(true)}
       >
         <input
@@ -221,7 +221,7 @@ const Header = () => {
         </button>
         {showSuggestion && suggestionData?.length > 0 && (
           <div
-            className={`md:flex md:flex-col absolute md:top-full top-12 left-1/2 transform -translate-x-1/2   md:w-full w-9/12 z-50 md:mt-1 ${
+            className={`md:flex md:flex-col absolute md:top-full top-12 left-1/2 transform -translate-x-1/2   w-full z-50 md:mt-1  ${
               theme ? "bg-gray-200 " : "bg-[#2b2a2a] text-white"
             } shadow-2xl rounded-lg z-50 text-xs text-gray-700`}
             onBlur={() => {
@@ -234,7 +234,7 @@ const Header = () => {
             <h2 className="py-2 px-4 font-medium">
               Search Results for - {searchInp}
             </h2>
-            <div className="px-2 pb-2 overflow-y-scroll max-h-72 ">
+            <div className="px-2 pb-2 overflow-y-scroll flex flex-col gap-1 md:gap-0 max-h-72 ">
               {suggestionData?.map((item, i) => {
                 return (
                   <h2
@@ -248,7 +248,7 @@ const Header = () => {
                       setShowSuggestion(false);
                     }}
                   >
-                    <i className="fa-solid fa-magnifying-glass"></i>{" "}
+                    <i className="fa-solid hidden md:block fa-magnifying-glass"></i>{" "}
                     {item?.snippet?.title &&
                       item?.snippet?.title?.split(" ")?.slice(0, 7).join(" ")}
                   </h2>

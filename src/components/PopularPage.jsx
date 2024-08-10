@@ -125,7 +125,7 @@ const PopularPage = () => {
         transition:Bounce
       />
       <div
-        className={`flex fixed z-40 top-[57.2px] items-center md:px-6 gap-3 w-full md:pb-4 pb-3 md:pt-3 py-1 ${
+        className={`flex fixed z-40 top-[57.2px] left-4 md:left-6 category_wrapper items-center gap-3 md:pb-4 pb-3 md:pt-3 py-1 ${
           theme ? "bg-white" : "bg-[#0f0f0f]"
         } `}
       >
