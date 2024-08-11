@@ -46,18 +46,14 @@ const Header = () => {
     try {
       const url = await fetch(search_suggestion_api + query);
       const data = await url.json();
-      console.log(data);
       setSuggestionData(data?.items);
     } catch (err) {
       console.log(err);
     }
   };
-  // const notify = () => toast("Wow so easy !");
-  // notify();
 
   const handleFormSubmit = (e) => {
     e.preventDefault();
-    // console.log("submmited");
     dispatch(setSearchQuery(searchInp));
     setShowSuggestion(false);
   };
@@ -243,7 +239,6 @@ const Header = () => {
                       theme ? "hover:bg-gray-300" : "hover:bg-[#393838]"
                     }  rounded`}
                     onClick={() => {
-                      console.log(item);
                       dispatch(setSearchQuery(item?.snippet?.title));
                       setShowSuggestion(false);
                     }}

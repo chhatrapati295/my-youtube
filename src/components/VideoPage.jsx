@@ -15,7 +15,6 @@ import { formatDistanceToNow } from "date-fns";
 
 const VideoPage = () => {
   const { id } = useParams();
-  console.log(id);
   const [videoInfo, setVideoInfo] = useState({});
   const [categoryItems, setCategoryItems] = useState(null);
   const [suggestData, setSuggestData] = useState(null);
@@ -32,9 +31,6 @@ const VideoPage = () => {
   const containerRef = useRef(null);
   const theme = useSelector((state) => state.theme.dark);
 
-  // const {data , isLoading , isError} = useQuery({ queryKey: ['videoDetail'], queryFn: getVideoDetails })
-  // console.log(data)
-
   useEffect(() => {
     getCategories();
     getVideoDetails();
@@ -43,7 +39,6 @@ const VideoPage = () => {
   useEffect(() => {
     getVideoInfo();
     getVideoComments();
-    // getSuggestedVideoData(id);
   }, [id]);
 
   useEffect(() => {
@@ -74,7 +69,6 @@ const VideoPage = () => {
     try {
       const apiUrl = await fetch(video_info_api + id);
       const data = await apiUrl.json();
-      console.log(data);
       setChannelId(data?.items && data?.items[0]?.snippet?.channelId);
       setVideoInfo(data);
     } catch (error) {
@@ -103,7 +97,6 @@ const VideoPage = () => {
     };
     const urlData = await fetch(url, options);
     const data = await urlData.json();
-    console.log(data, "hello");
     setSuggestData(data?.data);
   };
 
@@ -120,7 +113,6 @@ const VideoPage = () => {
         throw new Error("Failed to fetch video details");
       }
       const data = await url.json();
-      // console.log(data);
       setVideoDetails(data?.items);
       setChannelId(data?.items && data?.items[0]?.snippet?.channelId);
     } catch (error) {
@@ -135,7 +127,6 @@ const VideoPage = () => {
         throw new Error("Failed to fetch channel details");
       }
       const data = await url.json();
-      console.log("maindata", data);
       setChannelDetails(data?.items && data?.items[0]);
     } catch (error) {
       console.error("Error fetching channel details:", error);

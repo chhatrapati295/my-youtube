@@ -27,7 +27,6 @@ const PopularPage = () => {
   const theme = useSelector((state) => state.theme.dark);
 
   useEffect(() => {
-    console.log(vidCategory);
     if (vidCategory) {
       getCategoryVideoData(vidCategory);
     } else {
@@ -49,7 +48,6 @@ const PopularPage = () => {
     try {
       const url = await fetch(search_video_api + query);
       const data = await url.json();
-      console.log("search data ", data);
       setPopularData(data);
     } catch (error) {
       console.log(error);
